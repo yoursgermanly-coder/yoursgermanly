@@ -1,0 +1,63 @@
+import { z } from "zod";
+
+export const TranslateInput = z.object({
+  text: z.string().min(1).max(600),
+});
+
+export const TranslationSchema = z.object({
+  german: z.string(),
+  literalEnglish: z.string(),
+  pronunciation: z.string(),
+  formality: z.enum(["informal", "formal", "neutral"]),
+  notes: z.string(),
+  alternatives: z.array(z.string()).max(3),
+});
+
+export type Translation = z.infer<typeof TranslationSchema>;
+
+export const CEFR_LEVELS = ["A1", "A2", "B1", "B2"] as const;
+export type CefrLevel = (typeof CEFR_LEVELS)[number];
+
+export const QuizInput = z.object({
+  topic: z.string().min(1).max(60),
+  level: z.enum(CEFR_LEVELS),
+  count: z.number().int().min(1).max(10),
+});
+
+export const QuizSchema = z.object({
+  questions: z
+    .array(
+      z.object({
+        prompt: z.string(),
+        options: z.array(z.string()).length(4),
+        correctIndex: z.number().int().min(0).max(3),
+        explanation: z.string(),
+      }),
+    )
+    .min(1),
+});
+
+export type QuizQuestion = z.infer<typeof QuizSchema>["questions"][number];
+
+export const QUIZ_TOPICS = [
+  "Greetings & introductions",
+  "Everyday vocabulary",
+  "Ordering food & drinks",
+  "Travel & directions",
+  "Numbers & time",
+  "Articles der/die/das",
+  "Verb conjugation",
+  "Small talk",
+] as const;
+
+export function toFriendlyAiError(error: unknown): Error {
+  const message = error instanceof Error ? error.message : String(error);
+  if (message.includes("429")) {
+    return new Error("Too many requests right now. Please try again in a moment.");
+  }
+  if (message.includes("402")) {
+    return new Error("AI credits are exhausted. Please add credits to continue.");
+  }
+  console.error("[lernexa] AI gateway error:", message);
+  return new Error("We couldn't reach the AI tutor. Please try again.");
+}
