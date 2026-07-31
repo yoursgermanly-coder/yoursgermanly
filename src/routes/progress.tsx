@@ -35,7 +35,7 @@ function ProgressPage() {
   const goalPercent = Math.min(100, Math.round((progress.todayXp / progress.dailyGoal) * 100));
 
   return (
-    <AppShell title="Your progress" subtitle="Every小 step counts — keep the streak alive.">
+    <AppShell title="Your progress" subtitle="Every small step counts — keep the streak alive.">
       <Card className="shadow-soft rounded-3xl border-none p-5">
         <div className="flex items-center justify-between">
           <div>
