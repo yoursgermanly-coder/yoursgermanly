@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { useProgress } from "@/hooks/use-progress";
 import { translateToGerman } from "@/lib/lernexa.functions";
 import type { Translation } from "@/lib/lernexa-schemas";
 
