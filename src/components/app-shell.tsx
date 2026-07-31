@@ -1,11 +1,15 @@
 import { Link } from "@tanstack/react-router";
-import { GraduationCap, Home, Languages } from "lucide-react";
+import { Flame, GraduationCap, Home, Languages, Trophy } from "lucide-react";
+
+import { useProgress } from "@/hooks/use-progress";
 
 const NAV_ITEMS = [
   { to: "/", label: "Home", icon: Home },
   { to: "/translate", label: "Translate", icon: Languages },
   { to: "/quiz", label: "Quiz", icon: GraduationCap },
+  { to: "/progress", label: "Progress", icon: Trophy },
 ] as const;
+
 
 export function BottomNav() {
   return (
@@ -41,14 +45,29 @@ export function AppShell({
   subtitle?: string;
   children: React.ReactNode;
 }) {
+  const { progress } = useProgress();
+
   return (
     <div className="min-h-screen bg-background pb-24">
       <header className="bg-brand-gradient px-5 pb-8 pt-10 text-primary-foreground">
-        <div className="mx-auto max-w-md">
-          <h1 className="text-2xl">{title}</h1>
-          {subtitle ? <p className="mt-1 text-sm opacity-90">{subtitle}</p> : null}
+        <div className="mx-auto flex max-w-md items-start justify-between gap-3">
+          <div>
+            <h1 className="text-2xl">{title}</h1>
+            {subtitle ? <p className="mt-1 text-sm opacity-90">{subtitle}</p> : null}
+          </div>
+          <Link
+            to="/progress"
+            aria-label={`Streak ${progress.streak} days, ${progress.totalXp} XP total`}
+            className="flex shrink-0 items-center gap-2 rounded-full bg-primary-foreground/15 px-3 py-2 text-sm font-semibold backdrop-blur-sm transition-transform active:scale-95"
+          >
+            <Flame className="size-4" aria-hidden="true" />
+            {progress.streak}
+            <span className="opacity-70">·</span>
+            {progress.totalXp} XP
+          </Link>
         </div>
       </header>
+
       <main className="mx-auto -mt-5 max-w-md px-5">{children}</main>
       <BottomNav />
     </div>

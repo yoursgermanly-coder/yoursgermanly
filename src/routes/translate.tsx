@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { useProgress } from "@/hooks/use-progress";
 import { translateToGerman } from "@/lib/lernexa.functions";
 import type { Translation } from "@/lib/lernexa-schemas";
 
@@ -49,12 +50,21 @@ function TranslatePage() {
   const [text, setText] = useState("");
   const [result, setResult] = useState<Translation | null>(null);
   const translate = useServerFn(translateToGerman);
+  const { recordTranslation } = useProgress();
 
   const mutation = useMutation({
     mutationFn: (value: string) => translate({ data: { text: value } }),
-    onSuccess: (data) => setResult(data),
+    onSuccess: (data) => {
+      setResult(data);
+      const { xp, unlocked } = recordTranslation();
+      toast.success(`Übersetzt! +${xp} XP`);
+      for (const achievement of unlocked) {
+        toast(`${achievement.emoji} Achievement unlocked: ${achievement.title}`);
+      }
+    },
     onError: (error: Error) => toast.error(error.message),
   });
+
 
   const handleSubmit = (value: string) => {
     const trimmed = value.trim();

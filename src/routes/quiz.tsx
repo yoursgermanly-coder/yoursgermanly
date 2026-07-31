@@ -9,6 +9,7 @@ import { AppShell } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { useProgress } from "@/hooks/use-progress";
 import { generateQuiz } from "@/lib/lernexa.functions";
 import { CEFR_LEVELS, QUIZ_TOPICS, type CefrLevel, type QuizQuestion } from "@/lib/lernexa-schemas";
 import { cn } from "@/lib/utils";
@@ -42,7 +43,15 @@ function QuizPage() {
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
 
+  const { recordCorrectAnswer, recordQuizRound } = useProgress();
   const fetchQuiz = useServerFn(generateQuiz);
+
+  const celebrate = (result: { xp: number; unlocked: { emoji: string; title: string }[] }, message: string) => {
+    toast.success(`${message} +${result.xp} XP`);
+    for (const achievement of result.unlocked) {
+      toast(`${achievement.emoji} Achievement unlocked: ${achievement.title}`);
+    }
+  };
 
   const mutation = useMutation({
     mutationFn: () => fetchQuiz({ data: { topic, level, count: QUESTIONS_PER_ROUND } }),
@@ -63,14 +72,17 @@ function QuizPage() {
     setSelected(optionIndex);
     if (optionIndex === current.correctIndex) {
       setScore((value) => value + 1);
-      toast.success("Richtig! Nice work 🎉");
+      celebrate(recordCorrectAnswer(), "Richtig! Nice work 🎉");
     }
   };
 
   const handleNext = () => {
+    const isLast = index + 1 === questions.length;
     setSelected(null);
     setIndex((value) => value + 1);
+    if (isLast) celebrate(recordQuizRound(score, questions.length), "Round complete!");
   };
+
 
   return (
     <AppShell title="Practice quiz" subtitle="Unlimited questions, instant feedback.">

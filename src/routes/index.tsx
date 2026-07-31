@@ -1,8 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { GraduationCap, Languages, Sparkles } from "lucide-react";
+import { Flame, GraduationCap, Languages, Sparkles } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
 import { Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { useProgress } from "@/hooks/use-progress";
+import { getLevel } from "@/lib/progress";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -40,9 +44,36 @@ const FEATURES = [
 ] as const;
 
 function HomePage() {
+  const { progress } = useProgress();
+  const level = getLevel(progress.totalXp);
+  const goalPercent = Math.min(100, Math.round((progress.todayXp / progress.dailyGoal) * 100));
+  const goalReached = progress.todayXp >= progress.dailyGoal;
+
   return (
     <AppShell title="Willkommen 👋" subtitle="Your daily dose of German, made simple.">
       <Card className="shadow-soft rounded-3xl border-none p-5">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <h2 className="text-base font-bold">
+              {goalReached ? "Daily goal reached 🎉" : "Today's goal"}
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {goalReached
+                ? "Fantastisch! Anything extra is bonus XP."
+                : `${progress.todayXp} / ${progress.dailyGoal} XP — ${progress.dailyGoal - progress.todayXp} to go.`}
+            </p>
+          </div>
+          <span className="flex shrink-0 items-center gap-1 rounded-full bg-accent/20 px-3 py-1.5 text-sm font-bold text-foreground">
+            <Flame className="size-4 text-accent" aria-hidden="true" /> {progress.streak}
+          </span>
+        </div>
+        <Progress value={goalPercent} className="mt-4 h-2" />
+        <Link to="/progress" className="mt-3 block text-xs font-semibold text-primary">
+          Level {level.level} · {level.title} — view progress →
+        </Link>
+      </Card>
+
+      <Card className="shadow-soft mt-3 rounded-3xl border-none p-5">
         <div className="flex items-start gap-3">
           <span className="bg-brand-gradient text-primary-foreground flex size-11 shrink-0 items-center justify-center rounded-2xl">
             <Sparkles className="size-5" aria-hidden="true" />
@@ -55,6 +86,7 @@ function HomePage() {
           </div>
         </div>
       </Card>
+
 
       <section aria-label="Learning tools" className="mt-4 space-y-3">
         {FEATURES.map(({ to, icon: Icon, title, description }) => (

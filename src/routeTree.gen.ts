@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as TranslateRouteImport } from './routes/translate'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuizRoute = QuizRouteImport.update({
@@ -31,30 +37,34 @@ const TranslateRoute = TranslateRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
   '/translate': typeof TranslateRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
   '/translate': typeof TranslateRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
   '/translate': typeof TranslateRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/quiz' | '/translate'
+  fullPaths: '/' | '/progress' | '/quiz' | '/translate'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/quiz' | '/translate'
-  id: '__root__' | '/' | '/quiz' | '/translate'
+  to: '/' | '/progress' | '/quiz' | '/translate'
+  id: '__root__' | '/' | '/progress' | '/quiz' | '/translate'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ProgressRoute: typeof ProgressRoute
   QuizRoute: typeof QuizRoute
   TranslateRoute: typeof TranslateRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quiz': {
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ProgressRoute: ProgressRoute,
   QuizRoute: QuizRoute,
   TranslateRoute: TranslateRoute,
 }
