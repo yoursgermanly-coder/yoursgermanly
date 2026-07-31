@@ -1,8 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { GraduationCap, Languages, Sparkles } from "lucide-react";
+import { Flame, GraduationCap, Languages, Sparkles } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
 import { Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { useProgress } from "@/hooks/use-progress";
+import { getLevel } from "@/lib/progress";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
