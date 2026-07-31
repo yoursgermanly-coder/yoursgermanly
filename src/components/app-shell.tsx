@@ -1,11 +1,15 @@
 import { Link } from "@tanstack/react-router";
-import { GraduationCap, Home, Languages } from "lucide-react";
+import { Flame, GraduationCap, Home, Languages, Trophy } from "lucide-react";
+
+import { useProgress } from "@/hooks/use-progress";
 
 const NAV_ITEMS = [
   { to: "/", label: "Home", icon: Home },
   { to: "/translate", label: "Translate", icon: Languages },
   { to: "/quiz", label: "Quiz", icon: GraduationCap },
+  { to: "/progress", label: "Progress", icon: Trophy },
 ] as const;
+
 
 export function BottomNav() {
   return (
