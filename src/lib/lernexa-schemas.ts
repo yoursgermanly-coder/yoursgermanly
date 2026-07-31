@@ -58,5 +58,6 @@ export function toFriendlyAiError(error: unknown): Error {
   if (message.includes("402")) {
     return new Error("AI credits are exhausted. Please add credits to continue.");
   }
+  console.error("[lernexa] AI gateway error:", message);
   return new Error("We couldn't reach the AI tutor. Please try again.");
 }
