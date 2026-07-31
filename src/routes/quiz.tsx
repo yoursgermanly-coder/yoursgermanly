@@ -9,6 +9,7 @@ import { AppShell } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { useProgress } from "@/hooks/use-progress";
 import { generateQuiz } from "@/lib/lernexa.functions";
 import { CEFR_LEVELS, QUIZ_TOPICS, type CefrLevel, type QuizQuestion } from "@/lib/lernexa-schemas";
 import { cn } from "@/lib/utils";
