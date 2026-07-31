@@ -33,7 +33,9 @@ function subscribe(listener: Listener) {
   return () => listeners.delete(listener);
 }
 
-function setState(updater: (current: ProgressState) => ProgressState): ProgressState[] {
+function setState(
+  updater: (current: ProgressState) => ProgressState,
+): [ProgressState, ProgressState] {
   const previous = getSnapshot();
   const next = syncAchievements(updater(withFreshDay(previous)));
   state = next;
