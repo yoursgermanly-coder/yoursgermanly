@@ -55,16 +55,25 @@ export function AppShell({
             <h1 className="text-2xl">{title}</h1>
             {subtitle ? <p className="mt-1 text-sm opacity-90">{subtitle}</p> : null}
           </div>
-          <Link
-            to="/progress"
-            aria-label={`Streak ${progress.streak} days, ${progress.totalXp} XP total`}
-            className="flex shrink-0 items-center gap-2 rounded-full bg-primary-foreground/15 px-3 py-2 text-sm font-semibold backdrop-blur-sm transition-transform active:scale-95"
-          >
-            <Flame className="size-4" aria-hidden="true" />
-            {progress.streak}
-            <span className="opacity-70">·</span>
-            {progress.totalXp} XP
-          </Link>
+          <div className="flex shrink-0 items-center gap-2">
+            <Link
+              to="/progress"
+              aria-label={`Streak ${progress.streak} days, ${progress.totalXp} XP total`}
+              className="flex items-center gap-2 rounded-full bg-primary-foreground/15 px-3 py-2 text-sm font-semibold backdrop-blur-sm transition-transform active:scale-95"
+            >
+              <Flame className="size-4" aria-hidden="true" />
+              {progress.streak}
+              <span className="opacity-70">·</span>
+              {progress.totalXp} XP
+            </Link>
+            <Link
+              to="/account"
+              aria-label="Your account"
+              className="flex size-10 items-center justify-center rounded-full bg-primary-foreground/15 backdrop-blur-sm transition-transform active:scale-95"
+            >
+              <UserRound className="size-5" aria-hidden="true" />
+            </Link>
+          </div>
         </div>
       </header>
 
