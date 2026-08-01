@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Flame, GraduationCap, Home, Languages, Trophy } from "lucide-react";
+import { Flame, GraduationCap, Home, Languages, Trophy, UserRound } from "lucide-react";
 
 import { useProgress } from "@/hooks/use-progress";
 
