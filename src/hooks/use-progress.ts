@@ -1,5 +1,6 @@
 import { useCallback, useSyncExternalStore } from "react";
 
+import { fetchRemoteProgress, mergeProgress, pushRemoteProgress } from "@/lib/progress-sync";
 import {
   ACHIEVEMENTS,
   INITIAL_PROGRESS,
