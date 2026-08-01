@@ -1,5 +1,6 @@
 import { useCallback, useSyncExternalStore } from "react";
 
+import { fetchRemoteProgress, mergeProgress, pushRemoteProgress } from "@/lib/progress-sync";
 import {
   ACHIEVEMENTS,
   INITIAL_PROGRESS,
@@ -19,6 +20,9 @@ type Listener = () => void;
 let state: ProgressState | null = null;
 const listeners = new Set<Listener>();
 
+let syncedUserId: string | null = null;
+let pushTimer: ReturnType<typeof setTimeout> | null = null;
+
 function getSnapshot(): ProgressState {
   if (!state) state = loadProgress();
   return state;
@@ -33,14 +37,45 @@ function subscribe(listener: Listener) {
   return () => listeners.delete(listener);
 }
 
+function emit(next: ProgressState) {
+  state = next;
+  saveProgress(next);
+  for (const listener of listeners) listener();
+}
+
+function schedulePush() {
+  if (!syncedUserId) return;
+  if (pushTimer) clearTimeout(pushTimer);
+  pushTimer = setTimeout(() => {
+    const userId = syncedUserId;
+    if (!userId) return;
+    void pushRemoteProgress(userId, getSnapshot());
+  }, 800);
+}
+
+/** Called when a learner signs in: merge cloud progress with this device's progress. */
+export async function startCloudSync(userId: string): Promise<void> {
+  if (syncedUserId === userId) return;
+  syncedUserId = userId;
+  const remote = await fetchRemoteProgress(userId);
+  const merged = remote ? mergeProgress(getSnapshot(), remote) : getSnapshot();
+  emit(merged);
+  await pushRemoteProgress(userId, merged);
+}
+
+export function stopCloudSync(): void {
+  syncedUserId = null;
+  if (pushTimer) clearTimeout(pushTimer);
+  pushTimer = null;
+}
+
 function setState(
   updater: (current: ProgressState) => ProgressState,
 ): [ProgressState, ProgressState] {
   const previous = getSnapshot();
   const next = syncAchievements(updater(withFreshDay(previous)));
-  state = next;
-  saveProgress(next);
-  for (const listener of listeners) listener();
+  emit(next);
+  schedulePush();
   return [previous, next];
 }
 
