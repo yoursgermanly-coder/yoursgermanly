@@ -60,6 +60,43 @@ export const QUIZ_TOPICS = [
   "Small talk",
 ] as const;
 
+export const VOCAB_TOPICS = [
+  "Everyday essentials",
+  "Food & drink",
+  "Travel & transport",
+  "Home & family",
+  "Work & office",
+  "Shopping & money",
+  "Health & body",
+  "Nature & weather",
+  "Feelings & opinions",
+  "Common verbs",
+] as const;
+
+export const VocabularyInput = z.object({
+  topic: z.string().min(1).max(60),
+  level: z.enum(CEFR_LEVELS),
+  count: z.number().int().min(1).max(12),
+  exclude: z.array(z.string()).max(200).default([]),
+});
+
+export const VocabularySchema = z.object({
+  words: z
+    .array(
+      z.object({
+        german: z.string(),
+        english: z.string(),
+        article: z.string(),
+        example: z.string(),
+        exampleEnglish: z.string(),
+      }),
+    )
+    .min(1),
+});
+
+export type VocabularyItem = z.infer<typeof VocabularySchema>["words"][number];
+
+
 export function toFriendlyAiError(error: unknown): Error {
   const message = error instanceof Error ? error.message : String(error);
   if (message.includes("429")) {
