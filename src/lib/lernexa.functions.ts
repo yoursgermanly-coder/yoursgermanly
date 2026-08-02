@@ -6,9 +6,12 @@ import {
   QuizSchema,
   TranslateInput,
   TranslationSchema,
+  VocabularyInput,
+  VocabularySchema,
   toFriendlyAiError,
   type QuizQuestion,
   type Translation,
+  type VocabularyItem,
 } from "./lernexa-schemas";
 
 export const translateToGerman = createServerFn({ method: "POST" })
@@ -65,6 +68,40 @@ export const generateQuiz = createServerFn({ method: "POST" })
         prompt: `Write ${data.count} CEFR ${data.level} German questions about "${data.topic}". Random seed: ${Math.random()}`,
       });
       return output.questions;
+    } catch (error) {
+      throw toFriendlyAiError(error);
+    }
+  });
+
+export const generateVocabulary = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => VocabularyInput.parse(input))
+  .handler(async ({ data }): Promise<VocabularyItem[]> => {
+    const key = process.env["LOVABLE_API_KEY"];
+    if (!key) throw new Error("AI is not configured yet.");
+
+    const { createLovableAiGatewayProvider, CHAT_MODEL } = await import("./ai-gateway.server");
+    const gateway = createLovableAiGatewayProvider(key);
+
+    try {
+      const { output } = await generateText({
+        model: gateway(CHAT_MODEL),
+        output: Output.object({ schema: VocabularySchema }),
+        temperature: 1,
+        system:
+          "You build German vocabulary packs for English speakers. " +
+          "`german` is the base word without an article. " +
+          "`article` is der/die/das for nouns, or an empty string for other word types. " +
+          "`english` is a short meaning (max 4 words). " +
+          "`example` is one short everyday German sentence using the word, and `exampleEnglish` is its English meaning. " +
+          "Choose useful, high-frequency words for the level. Never repeat a word within one pack.",
+        prompt:
+          `Give ${data.count} CEFR ${data.level} German words for the topic "${data.topic}".` +
+          (data.exclude.length > 0
+            ? ` Do not include any of these already-learned words: ${data.exclude.slice(0, 120).join(", ")}.`
+            : "") +
+          ` Random seed: ${Math.random()}`,
+      });
+      return output.words;
     } catch (error) {
       throw toFriendlyAiError(error);
     }
