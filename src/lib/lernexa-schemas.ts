@@ -1,16 +1,26 @@
 import { z } from "zod";
 
+export const TRANSLATION_DIRECTIONS = ["en-de", "de-en"] as const;
+export type TranslationDirection = (typeof TRANSLATION_DIRECTIONS)[number];
+
 export const TranslateInput = z.object({
   text: z.string().min(1).max(600),
+  direction: z.enum(TRANSLATION_DIRECTIONS).default("en-de"),
 });
 
 export const TranslationSchema = z.object({
   german: z.string(),
+  english: z.string(),
   literalEnglish: z.string(),
   pronunciation: z.string(),
+  syllables: z.string(),
   formality: z.enum(["informal", "formal", "neutral"]),
   notes: z.string(),
   alternatives: z.array(z.string()).max(3),
+  example: z.object({
+    german: z.string(),
+    english: z.string(),
+  }),
 });
 
 export type Translation = z.infer<typeof TranslationSchema>;
