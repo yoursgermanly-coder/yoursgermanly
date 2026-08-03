@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BookOpen, Flame, GraduationCap, Languages, Sparkles } from "lucide-react";
+import { BookOpen, Flame, GraduationCap, Languages, Sparkles, SpellCheck } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
 import { Card } from "@/components/ui/card";
@@ -40,6 +40,12 @@ const FEATURES = [
     icon: BookOpen,
     title: "Vocabulary builder",
     description: "AI word packs plus spaced-repetition review that makes words stick.",
+  },
+  {
+    to: "/grammar",
+    icon: SpellCheck,
+    title: "Grammar lessons",
+    description: "Articles, cases and word order explained in plain English.",
   },
   {
     to: "/quiz",

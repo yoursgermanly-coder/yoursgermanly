@@ -2,6 +2,8 @@ import { createServerFn } from "@tanstack/react-start";
 import { generateText, Output } from "ai";
 
 import {
+  GrammarLessonInput,
+  GrammarLessonSchema,
   QuizInput,
   QuizSchema,
   TranslateInput,
@@ -9,6 +11,7 @@ import {
   VocabularyInput,
   VocabularySchema,
   toFriendlyAiError,
+  type GrammarLesson,
   type QuizQuestion,
   type Translation,
   type VocabularyItem,
@@ -102,6 +105,34 @@ export const generateVocabulary = createServerFn({ method: "POST" })
           ` Random seed: ${Math.random()}`,
       });
       return output.words;
+    } catch (error) {
+      throw toFriendlyAiError(error);
+    }
+  });
+
+export const generateGrammarLesson = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => GrammarLessonInput.parse(input))
+  .handler(async ({ data }): Promise<GrammarLesson> => {
+    const key = process.env["LOVABLE_API_KEY"];
+    if (!key) throw new Error("AI is not configured yet.");
+
+    const { createLovableAiGatewayProvider, CHAT_MODEL } = await import("./ai-gateway.server");
+    const gateway = createLovableAiGatewayProvider(key);
+
+    try {
+      const { output } = await generateText({
+        model: gateway(CHAT_MODEL),
+        output: Output.object({ schema: GrammarLessonSchema }),
+        system:
+          "You are a warm, encouraging German grammar teacher for absolute beginners who speak English. " +
+          "Explain in very simple English, short sentences, no linguistic jargon (or explain it in plain words). " +
+          "`intro` is 1-2 friendly sentences on why this grammar point matters in real life. " +
+          "Each rule has a short heading, a 1-3 sentence explanation, and 1-3 everyday German examples with English meanings. " +
+          "`tip` is one memorable trick to remember the rule. `mistake` is the most common beginner mistake and how to avoid it. " +
+          "`practice` questions have exactly 3 options, one correct answer, and a kind one-sentence explanation.",
+        prompt: `Teach the CEFR ${data.level} German grammar topic "${data.topicTitle}" to a beginner. Random seed: ${Math.random()}`,
+      });
+      return output;
     } catch (error) {
       throw toFriendlyAiError(error);
     }
