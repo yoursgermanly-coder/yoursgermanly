@@ -18,6 +18,7 @@ import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as TranslateRouteImport } from './routes/translate'
 import { Route as VocabularyRouteImport } from './routes/vocabulary'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as TutorIndexRouteImport } from './routes/tutor.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -64,6 +65,11 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TutorIndexRoute = TutorIndexRouteImport.update({
+  id: '/tutor/',
+  path: '/tutor/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/translate': typeof TranslateRoute
   '/vocabulary': typeof VocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/tutor/': typeof TutorIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByTo {
   '/translate': typeof TranslateRoute
   '/vocabulary': typeof VocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/tutor': typeof TutorIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -98,6 +106,7 @@ export interface FileRoutesById {
   '/translate': typeof TranslateRoute
   '/vocabulary': typeof VocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/tutor/': typeof TutorIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/translate'
     | '/vocabulary'
     | '/api/chat'
+    | '/tutor/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/translate'
     | '/vocabulary'
     | '/api/chat'
+    | '/tutor'
   id:
     | '__root__'
     | '/'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/translate'
     | '/vocabulary'
     | '/api/chat'
+    | '/tutor/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -145,6 +157,7 @@ export interface RootRouteChildren {
   TranslateRoute: typeof TranslateRoute
   VocabularyRoute: typeof VocabularyRoute
   ApiChatRoute: typeof ApiChatRoute
+  TutorIndexRoute: typeof TutorIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -212,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tutor/': {
+      id: '/tutor/'
+      path: '/tutor'
+      fullPath: '/tutor/'
+      preLoaderRoute: typeof TutorIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -225,6 +245,7 @@ const rootRouteChildren: RootRouteChildren = {
   TranslateRoute: TranslateRoute,
   VocabularyRoute: VocabularyRoute,
   ApiChatRoute: ApiChatRoute,
+  TutorIndexRoute: TutorIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

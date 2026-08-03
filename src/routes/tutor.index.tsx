@@ -10,7 +10,7 @@ import { Card } from "@/components/ui/card";
 import { useAuth } from "@/hooks/use-auth";
 import { createThread, deleteThread, listThreads, type TutorThread } from "@/lib/tutor";
 
-export const Route = createFileRoute("/tutor")({
+export const Route = createFileRoute("/tutor/")({
   head: () => ({
     meta: [
       { title: "AI German Tutor — Chat with Lena | Lernexa" },
