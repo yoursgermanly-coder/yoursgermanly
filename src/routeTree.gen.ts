@@ -19,6 +19,7 @@ import { Route as TranslateRouteImport } from './routes/translate'
 import { Route as VocabularyRouteImport } from './routes/vocabulary'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as TutorIndexRouteImport } from './routes/tutor.index'
+import { Route as TutorThreadIdRouteImport } from './routes/tutor.$threadId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -70,6 +71,11 @@ const TutorIndexRoute = TutorIndexRouteImport.update({
   path: '/tutor/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TutorThreadIdRoute = TutorThreadIdRouteImport.update({
+  id: '/tutor/$threadId',
+  path: '/tutor/$threadId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/translate': typeof TranslateRoute
   '/vocabulary': typeof VocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/tutor/$threadId': typeof TutorThreadIdRoute
   '/tutor/': typeof TutorIndexRoute
 }
 export interface FileRoutesByTo {
@@ -93,6 +100,7 @@ export interface FileRoutesByTo {
   '/translate': typeof TranslateRoute
   '/vocabulary': typeof VocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/tutor/$threadId': typeof TutorThreadIdRoute
   '/tutor': typeof TutorIndexRoute
 }
 export interface FileRoutesById {
@@ -106,6 +114,7 @@ export interface FileRoutesById {
   '/translate': typeof TranslateRoute
   '/vocabulary': typeof VocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/tutor/$threadId': typeof TutorThreadIdRoute
   '/tutor/': typeof TutorIndexRoute
 }
 export interface FileRouteTypes {
@@ -120,6 +129,7 @@ export interface FileRouteTypes {
     | '/translate'
     | '/vocabulary'
     | '/api/chat'
+    | '/tutor/$threadId'
     | '/tutor/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -132,6 +142,7 @@ export interface FileRouteTypes {
     | '/translate'
     | '/vocabulary'
     | '/api/chat'
+    | '/tutor/$threadId'
     | '/tutor'
   id:
     | '__root__'
@@ -144,6 +155,7 @@ export interface FileRouteTypes {
     | '/translate'
     | '/vocabulary'
     | '/api/chat'
+    | '/tutor/$threadId'
     | '/tutor/'
   fileRoutesById: FileRoutesById
 }
@@ -157,6 +169,7 @@ export interface RootRouteChildren {
   TranslateRoute: typeof TranslateRoute
   VocabularyRoute: typeof VocabularyRoute
   ApiChatRoute: typeof ApiChatRoute
+  TutorThreadIdRoute: typeof TutorThreadIdRoute
   TutorIndexRoute: typeof TutorIndexRoute
 }
 
@@ -232,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TutorIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tutor/$threadId': {
+      id: '/tutor/$threadId'
+      path: '/tutor/$threadId'
+      fullPath: '/tutor/$threadId'
+      preLoaderRoute: typeof TutorThreadIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -245,6 +265,7 @@ const rootRouteChildren: RootRouteChildren = {
   TranslateRoute: TranslateRoute,
   VocabularyRoute: VocabularyRoute,
   ApiChatRoute: ApiChatRoute,
+  TutorThreadIdRoute: TutorThreadIdRoute,
   TutorIndexRoute: TutorIndexRoute,
 }
 export const routeTree = rootRouteImport
