@@ -108,3 +108,41 @@ export function toFriendlyAiError(error: unknown): Error {
   console.error("[lernexa] AI gateway error:", message);
   return new Error("We couldn't reach the AI tutor. Please try again.");
 }
+
+export const GrammarLessonInput = z.object({
+  topicId: z.string().min(1).max(60),
+  topicTitle: z.string().min(1).max(80),
+  level: z.enum(CEFR_LEVELS),
+});
+
+export const GrammarLessonSchema = z.object({
+  intro: z.string(),
+  rules: z
+    .array(
+      z.object({
+        heading: z.string(),
+        explanation: z.string(),
+        examples: z
+          .array(z.object({ german: z.string(), english: z.string() }))
+          .min(1)
+          .max(3),
+      }),
+    )
+    .min(2)
+    .max(4),
+  tip: z.string(),
+  mistake: z.string(),
+  practice: z
+    .array(
+      z.object({
+        prompt: z.string(),
+        options: z.array(z.string()).length(3),
+        correctIndex: z.number().int().min(0).max(2),
+        explanation: z.string(),
+      }),
+    )
+    .min(3)
+    .max(5),
+});
+
+export type GrammarLesson = z.infer<typeof GrammarLessonSchema>;
