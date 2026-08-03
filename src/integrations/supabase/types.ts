@@ -92,6 +92,68 @@ export type Database = {
         }
         Relationships: []
       }
+      tutor_messages: {
+        Row: {
+          client_message_id: string | null
+          created_at: string
+          id: string
+          parts: Json
+          role: string
+          thread_id: string
+          user_id: string
+        }
+        Insert: {
+          client_message_id?: string | null
+          created_at?: string
+          id?: string
+          parts?: Json
+          role: string
+          thread_id: string
+          user_id: string
+        }
+        Update: {
+          client_message_id?: string | null
+          created_at?: string
+          id?: string
+          parts?: Json
+          role?: string
+          thread_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tutor_messages_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "tutor_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tutor_threads: {
+        Row: {
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
