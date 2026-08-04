@@ -1,12 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Flame, Lock, Sparkles, Target, Trophy } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Crown, Flame, Lock, Medal, Snowflake, Sparkles, Target, Trophy } from "lucide-react";
+import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { useAuth } from "@/hooks/use-auth";
 import { useProgress } from "@/hooks/use-progress";
-import { ACHIEVEMENTS, DAILY_GOAL_OPTIONS, getLevel } from "@/lib/progress";
+import { fetchLeaderboard } from "@/lib/leaderboard";
+import {
+  ACHIEVEMENTS,
+  DAILY_GOAL_OPTIONS,
+  DAILY_MISSIONS,
+  MAX_STREAK_FREEZES,
+  getLevel,
+  missionStatus,
+} from "@/lib/progress";
 import { cn } from "@/lib/utils";
+
 
 export const Route = createFileRoute("/progress")({
   head: () => ({
