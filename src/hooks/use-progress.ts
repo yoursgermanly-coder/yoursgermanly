@@ -91,7 +91,14 @@ export function useProgress() {
 
   const recordCorrectAnswer = useCallback(() => {
     const [previous, next] = setState((current) =>
-      awardXp({ ...current, correctAnswers: current.correctAnswers + 1 }, XP_PER_CORRECT_ANSWER),
+      awardXp(
+        {
+          ...current,
+          correctAnswers: current.correctAnswers + 1,
+          todayCorrect: current.todayCorrect + 1,
+        },
+        XP_PER_CORRECT_ANSWER,
+      ),
     );
     return { xp: XP_PER_CORRECT_ANSWER, unlocked: newlyUnlockedTitles(previous, next) };
   }, []);
@@ -103,6 +110,7 @@ export function useProgress() {
         {
           ...current,
           quizzesCompleted: current.quizzesCompleted + 1,
+          todayQuizzes: current.todayQuizzes + 1,
           perfectRounds: current.perfectRounds + (isPerfect ? 1 : 0),
         },
         XP_PER_QUIZ_ROUND,
@@ -113,14 +121,41 @@ export function useProgress() {
 
   const recordTranslation = useCallback(() => {
     const [previous, next] = setState((current) =>
-      awardXp({ ...current, translations: current.translations + 1 }, XP_PER_TRANSLATION),
+      awardXp(
+        {
+          ...current,
+          translations: current.translations + 1,
+          todayTranslations: current.todayTranslations + 1,
+        },
+        XP_PER_TRANSLATION,
+      ),
     );
     return { xp: XP_PER_TRANSLATION, unlocked: newlyUnlockedTitles(previous, next) };
+  }, []);
+
+  /** Collects the bonus XP for a finished daily mission (once per day). */
+  const claimMission = useCallback((mission: DailyMission) => {
+    const current = getSnapshot();
+    const status = missionStatus(withFreshDay(current), mission);
+    if (!status.isComplete || status.isClaimed) return null;
+
+    const [previous, next] = setState((state) =>
+      awardXp({ ...state, claimedMissions: [...state.claimedMissions, mission.id] }, mission.reward),
+    );
+    return { xp: mission.reward, unlocked: newlyUnlockedTitles(previous, next) };
   }, []);
 
   const setDailyGoal = useCallback((dailyGoal: number) => {
     setState((current) => ({ ...current, dailyGoal }));
   }, []);
 
-  return { progress, recordCorrectAnswer, recordQuizRound, recordTranslation, setDailyGoal };
+  return {
+    progress,
+    recordCorrectAnswer,
+    recordQuizRound,
+    recordTranslation,
+    claimMission,
+    setDailyGoal,
+  };
 }
+
