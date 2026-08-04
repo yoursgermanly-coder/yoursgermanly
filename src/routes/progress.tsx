@@ -43,9 +43,21 @@ export const Route = createFileRoute("/progress")({
 });
 
 function ProgressPage() {
-  const { progress, setDailyGoal } = useProgress();
+  const { progress, setDailyGoal, claimMission } = useProgress();
   const level = getLevel(progress.totalXp);
   const goalPercent = Math.min(100, Math.round((progress.todayXp / progress.dailyGoal) * 100));
+
+  const handleClaim = (missionId: string) => {
+    const mission = DAILY_MISSIONS.find((item) => item.id === missionId);
+    if (!mission) return;
+    const result = claimMission(mission);
+    if (!result) return;
+    toast.success(`Mission complete! +${result.xp} XP`, { description: mission.title });
+    for (const achievement of result.unlocked) {
+      toast(`${achievement.emoji} ${achievement.title}`, { description: achievement.description });
+    }
+  };
+
 
   return (
     <AppShell title="Your progress" subtitle="Every small step counts — keep the streak alive.">
