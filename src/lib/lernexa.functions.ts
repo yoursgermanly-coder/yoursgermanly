@@ -6,6 +6,8 @@ import {
   GrammarLessonSchema,
   QuizInput,
   QuizSchema,
+  SpeakingSetInput,
+  SpeakingSetSchema,
   TranslateInput,
   TranslationSchema,
   VocabularyInput,
@@ -13,6 +15,7 @@ import {
   toFriendlyAiError,
   type GrammarLesson,
   type QuizQuestion,
+  type SpeakingPhrase,
   type Translation,
   type VocabularyItem,
 } from "./lernexa-schemas";
@@ -133,6 +136,34 @@ export const generateGrammarLesson = createServerFn({ method: "POST" })
         prompt: `Teach the CEFR ${data.level} German grammar topic "${data.topicTitle}" to a beginner. Random seed: ${Math.random()}`,
       });
       return output;
+    } catch (error) {
+      throw toFriendlyAiError(error);
+    }
+  });
+
+export const generateSpeakingSet = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => SpeakingSetInput.parse(input))
+  .handler(async ({ data }): Promise<SpeakingPhrase[]> => {
+    const key = process.env["LOVABLE_API_KEY"];
+    if (!key) throw new Error("AI is not configured yet.");
+
+    const { createLovableAiGatewayProvider, CHAT_MODEL } = await import("./ai-gateway.server");
+    const gateway = createLovableAiGatewayProvider(key);
+
+    try {
+      const { output } = await generateText({
+        model: gateway(CHAT_MODEL),
+        output: Output.object({ schema: SpeakingSetSchema }),
+        temperature: 1,
+        system:
+          "You create short German speaking and listening drills for English speakers. " +
+          "`german` is one natural spoken sentence (max 12 words) a learner would really say. " +
+          "`english` is its meaning. `pronunciation` is a simple English respelling with the stressed syllable in CAPITALS. " +
+          "`tip` is one short, kind pronunciation tip about a tricky sound in the sentence. " +
+          "Never repeat a sentence within one set.",
+        prompt: `Give ${data.count} CEFR ${data.level} German sentences for the situation "${data.scenario}". Random seed: ${Math.random()}`,
+      });
+      return output.phrases;
     } catch (error) {
       throw toFriendlyAiError(error);
     }

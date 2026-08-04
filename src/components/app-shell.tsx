@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { BookOpen, Flame, GraduationCap, Home, Languages, MessageCircle, SpellCheck, UserRound } from "lucide-react";
+import { BookOpen, Flame, Home, Languages, MessageCircle, Mic, SpellCheck, UserRound } from "lucide-react";
 
 import { useProgress } from "@/hooks/use-progress";
 
@@ -8,8 +8,8 @@ const NAV_ITEMS = [
   { to: "/translate", label: "Translate", icon: Languages },
   { to: "/vocabulary", label: "Words", icon: BookOpen },
   { to: "/grammar", label: "Grammar", icon: SpellCheck },
+  { to: "/speak", label: "Speak", icon: Mic },
   { to: "/tutor", label: "Tutor", icon: MessageCircle },
-  { to: "/quiz", label: "Quiz", icon: GraduationCap },
 ] as const;
 
 

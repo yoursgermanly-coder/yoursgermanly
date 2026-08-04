@@ -146,3 +146,35 @@ export const GrammarLessonSchema = z.object({
 });
 
 export type GrammarLesson = z.infer<typeof GrammarLessonSchema>;
+
+export const SPEAKING_SCENARIOS = [
+  "Greetings & introductions",
+  "Ordering in a café",
+  "Asking for directions",
+  "Shopping & prices",
+  "Small talk with neighbours",
+  "At the doctor",
+  "Travel & train station",
+  "At work",
+] as const;
+
+export const SpeakingSetInput = z.object({
+  scenario: z.string().min(1).max(60),
+  level: z.enum(CEFR_LEVELS),
+  count: z.number().int().min(3).max(8),
+});
+
+export const SpeakingSetSchema = z.object({
+  phrases: z
+    .array(
+      z.object({
+        german: z.string(),
+        english: z.string(),
+        pronunciation: z.string(),
+        tip: z.string(),
+      }),
+    )
+    .min(3),
+});
+
+export type SpeakingPhrase = z.infer<typeof SpeakingSetSchema>["phrases"][number];

@@ -13,13 +13,13 @@ import { createThread, deleteThread, listThreads, type TutorThread } from "@/lib
 export const Route = createFileRoute("/tutor/")({
   head: () => ({
     meta: [
-      { title: "AI German Tutor — Chat with Lena | Lernexa" },
+      { title: "AI German Tutor — Chat with Chinnu | Lernexa" },
       {
         name: "description",
         content:
           "Chat with your personal AI German tutor. Ask questions, practise conversations and get gentle corrections in simple English, any time.",
       },
-      { property: "og:title", content: "AI German Tutor — Chat with Lena | Lernexa" },
+      { property: "og:title", content: "AI German Tutor — Chat with Chinnu | Lernexa" },
       {
         property: "og:description",
         content:
@@ -76,19 +76,19 @@ function TutorHomePage() {
   }
 
   return (
-    <AppShell title="AI Tutor" subtitle="Lena is here whenever you want to practise.">
+    <AppShell title="AI Tutor" subtitle="Chinnu is here whenever you want to practise.">
       <Card className="shadow-soft rounded-3xl border-none p-5">
         <div className="flex items-center gap-4">
           <img
             src={tutorAvatar}
-            alt="Lena, your AI German tutor"
+            alt="Chinnu, your AI German tutor"
             width={512}
             height={512}
             loading="lazy"
             className="size-16 shrink-0 rounded-2xl bg-secondary/20 object-cover"
           />
           <div>
-            <h2 className="text-base font-bold">Hallo, ich bin Lena 👋</h2>
+            <h2 className="text-base font-bold">Hallo, ich bin Chinnu 👋</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Ask me anything about German — grammar, phrases, or just chat with me for practice.
             </p>
@@ -130,7 +130,7 @@ function TutorHomePage() {
             ) : threads.length === 0 ? (
               <Card className="shadow-soft rounded-3xl border-none p-6 text-center">
                 <p className="text-sm text-muted-foreground">
-                  No conversations yet. Start one and ask Lena your first question.
+                  No conversations yet. Start one and ask Chinnu your first question.
                 </p>
               </Card>
             ) : (
