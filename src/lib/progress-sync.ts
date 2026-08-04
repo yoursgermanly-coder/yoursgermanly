@@ -18,6 +18,12 @@ type ProgressRow = {
   translations: number;
   perfect_rounds: number;
   unlocked_achievements: string[];
+  today_correct: number;
+  today_quizzes: number;
+  today_translations: number;
+  claimed_missions: string[];
+  streak_freezes: number;
+  freezes_used: number;
 };
 
 export function rowToState(row: ProgressRow): ProgressState {
@@ -34,6 +40,12 @@ export function rowToState(row: ProgressRow): ProgressState {
     translations: row.translations,
     perfectRounds: row.perfect_rounds,
     unlockedAchievements: row.unlocked_achievements ?? [],
+    todayCorrect: row.today_correct ?? 0,
+    todayQuizzes: row.today_quizzes ?? 0,
+    todayTranslations: row.today_translations ?? 0,
+    claimedMissions: row.claimed_missions ?? [],
+    streakFreezes: row.streak_freezes ?? 0,
+    freezesUsed: row.freezes_used ?? 0,
   };
 }
 
@@ -51,14 +63,24 @@ export function stateToRow(state: ProgressState): ProgressRow {
     translations: state.translations,
     perfect_rounds: state.perfectRounds,
     unlocked_achievements: state.unlockedAchievements,
+    today_correct: state.todayCorrect,
+    today_quizzes: state.todayQuizzes,
+    today_translations: state.todayTranslations,
+    claimed_missions: state.claimedMissions,
+    streak_freezes: state.streakFreezes,
+    freezes_used: state.freezesUsed,
   };
 }
 
 /** Keeps the best of both worlds when local device progress meets cloud progress. */
 export function mergeProgress(local: ProgressState, remote: ProgressState): ProgressState {
   const today = getDayKey();
-  const localToday = local.todayKey === today ? local.todayXp : 0;
-  const remoteToday = remote.todayKey === today ? remote.todayXp : 0;
+  const isLocalToday = local.todayKey === today;
+  const isRemoteToday = remote.todayKey === today;
+  const localToday = isLocalToday ? local.todayXp : 0;
+  const remoteToday = isRemoteToday ? remote.todayXp : 0;
+  const leader = localToday >= remoteToday ? local : remote;
+  const isLeaderToday = leader.todayKey === today;
 
   return syncAchievements({
     ...INITIAL_PROGRESS,
@@ -74,11 +96,25 @@ export function mergeProgress(local: ProgressState, remote: ProgressState): Prog
     correctAnswers: Math.max(local.correctAnswers, remote.correctAnswers),
     translations: Math.max(local.translations, remote.translations),
     perfectRounds: Math.max(local.perfectRounds, remote.perfectRounds),
+    todayCorrect: isLeaderToday ? leader.todayCorrect : 0,
+    todayQuizzes: isLeaderToday ? leader.todayQuizzes : 0,
+    todayTranslations: isLeaderToday ? leader.todayTranslations : 0,
+    claimedMissions: isLeaderToday
+      ? Array.from(
+          new Set([
+            ...(isLocalToday ? local.claimedMissions : []),
+            ...(isRemoteToday ? remote.claimedMissions : []),
+          ]),
+        )
+      : [],
+    streakFreezes: Math.max(local.streakFreezes, remote.streakFreezes),
+    freezesUsed: Math.max(local.freezesUsed, remote.freezesUsed),
     unlockedAchievements: Array.from(
       new Set([...local.unlockedAchievements, ...remote.unlockedAchievements]),
     ),
   });
 }
+
 
 export async function fetchRemoteProgress(userId: string): Promise<ProgressState | null> {
   const { data, error } = await supabase
