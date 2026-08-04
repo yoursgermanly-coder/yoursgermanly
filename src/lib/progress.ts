@@ -11,6 +11,10 @@ export const DEFAULT_DAILY_GOAL = 50;
 
 const STORAGE_KEY = "lernexa.progress.v1";
 
+export const MAX_STREAK_FREEZES = 3;
+/** A freeze is granted every time the streak crosses one of these milestones. */
+const FREEZE_MILESTONE = 5;
+
 export type ProgressState = {
   totalXp: number;
   dailyGoal: number;
@@ -24,6 +28,12 @@ export type ProgressState = {
   translations: number;
   perfectRounds: number;
   unlockedAchievements: string[];
+  todayCorrect: number;
+  todayQuizzes: number;
+  todayTranslations: number;
+  claimedMissions: string[];
+  streakFreezes: number;
+  freezesUsed: number;
 };
 
 export const INITIAL_PROGRESS: ProgressState = {
@@ -39,7 +49,65 @@ export const INITIAL_PROGRESS: ProgressState = {
   translations: 0,
   perfectRounds: 0,
   unlockedAchievements: [],
+  todayCorrect: 0,
+  todayQuizzes: 0,
+  todayTranslations: 0,
+  claimedMissions: [],
+  streakFreezes: 1,
+  freezesUsed: 0,
 };
+
+export type DailyMission = {
+  id: string;
+  title: string;
+  description: string;
+  emoji: string;
+  reward: number;
+  target: number;
+  current: (state: ProgressState) => number;
+};
+
+/** Three light missions that reset every calendar day. */
+export const DAILY_MISSIONS: DailyMission[] = [
+  {
+    id: "mission-xp",
+    title: "Warm-up",
+    description: "Earn 20 XP today.",
+    emoji: "⚡",
+    reward: 15,
+    target: 20,
+    current: (state) => state.todayXp,
+  },
+  {
+    id: "mission-correct",
+    title: "Sharp shooter",
+    description: "Get 5 answers right today.",
+    emoji: "🎯",
+    reward: 20,
+    target: 5,
+    current: (state) => state.todayCorrect,
+  },
+  {
+    id: "mission-translate",
+    title: "Phrase collector",
+    description: "Translate 3 phrases today.",
+    emoji: "🔤",
+    reward: 10,
+    target: 3,
+    current: (state) => state.todayTranslations,
+  },
+];
+
+export function missionStatus(state: ProgressState, mission: DailyMission) {
+  const current = Math.min(mission.current(state), mission.target);
+  return {
+    current,
+    percent: Math.round((current / mission.target) * 100),
+    isComplete: current >= mission.target,
+    isClaimed: state.claimedMissions.includes(mission.id),
+  };
+}
+
 
 export type Achievement = {
   id: string;
