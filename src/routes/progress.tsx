@@ -215,6 +215,73 @@ function ProgressPage() {
   );
 }
 
+const MEDALS = ["🥇", "🥈", "🥉"] as const;
+
+function LeaderboardSection() {
+  const { user, isSignedIn } = useAuth();
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["leaderboard"],
+    queryFn: () => fetchLeaderboard(25),
+    enabled: isSignedIn,
+    staleTime: 60_000,
+  });
+
+  return (
+    <section aria-label="Leaderboard" className="mt-5">
+      <h2 className="mb-3 flex items-center gap-2 text-base font-bold">
+        <Crown className="size-4 text-primary" aria-hidden="true" />
+        Leaderboard
+      </h2>
+      <Card className="shadow-soft rounded-3xl border-none p-4">
+        {!isSignedIn ? (
+          <p className="text-sm text-muted-foreground">
+            Sign in to see how you compare with other Lernexa learners.
+          </p>
+        ) : isLoading ? (
+          <p className="text-sm text-muted-foreground">Loading the ranking…</p>
+        ) : isError ? (
+          <p className="text-sm text-muted-foreground">
+            We couldn't load the leaderboard right now — please try again later.
+          </p>
+        ) : !data || data.length === 0 ? (
+          <p className="text-sm text-muted-foreground">
+            No one is on the board yet. Earn some XP and claim the top spot!
+          </p>
+        ) : (
+          <ol className="space-y-2">
+            {data.map((entry, index) => (
+              <li
+                key={entry.user_id}
+                className={cn(
+                  "flex items-center gap-3 rounded-2xl px-3 py-2",
+                  entry.user_id === user?.id ? "bg-primary/10" : "bg-muted/60",
+                )}
+              >
+                <span className="w-7 text-center text-sm font-bold" aria-hidden="true">
+                  {MEDALS[index] ?? index + 1}
+                </span>
+                <span className="min-w-0 flex-1 truncate text-sm font-semibold">
+                  {entry.display_name}
+                  {entry.user_id === user?.id ? " (you)" : ""}
+                </span>
+                <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <Flame className="size-3.5" aria-hidden="true" />
+                  {entry.streak}
+                </span>
+                <span className="flex items-center gap-1 text-sm font-bold">
+                  <Medal className="size-4 text-primary" aria-hidden="true" />
+                  {entry.total_xp}
+                </span>
+              </li>
+            ))}
+          </ol>
+        )}
+      </Card>
+    </section>
+  );
+}
+
+
 function StatTile({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <Card className="shadow-soft rounded-3xl border-none p-4 text-center">
