@@ -222,22 +222,54 @@ export function getLevel(totalXp: number) {
   };
 }
 
-/** Rolls the daily counter over when the calendar day changed. */
+/** Rolls the daily counters and missions over when the calendar day changed. */
 export function withFreshDay(state: ProgressState): ProgressState {
   const today = getDayKey();
   if (state.todayKey === today) return state;
-  return { ...state, todayKey: today, todayXp: 0 };
+  return {
+    ...state,
+    todayKey: today,
+    todayXp: 0,
+    todayCorrect: 0,
+    todayQuizzes: 0,
+    todayTranslations: 0,
+    claimedMissions: [],
+  };
+}
+
+function daysBetween(from: string, to: string): number {
+  const start = new Date(`${from}T00:00:00`).getTime();
+  const end = new Date(`${to}T00:00:00`).getTime();
+  return Math.round((end - start) / 86_400_000);
 }
 
 export function awardXp(state: ProgressState, amount: number): ProgressState {
   const today = getDayKey();
   const base = withFreshDay(state);
   const isNewDay = base.lastActiveDay !== today;
-  const streak = isNewDay
-    ? base.lastActiveDay === getYesterdayKey()
-      ? base.streak + 1
-      : 1
-    : base.streak;
+
+  let streak = base.streak;
+  let streakFreezes = base.streakFreezes;
+  let freezesUsed = base.freezesUsed;
+
+  if (isNewDay) {
+    const gap = base.lastActiveDay ? daysBetween(base.lastActiveDay, today) : Number.POSITIVE_INFINITY;
+    if (gap === 1) {
+      streak = base.streak + 1;
+    } else if (gap === 2 && base.streakFreezes > 0) {
+      // One missed day is forgiven by spending a freeze.
+      streak = base.streak + 1;
+      streakFreezes -= 1;
+      freezesUsed += 1;
+    } else {
+      streak = 1;
+    }
+  }
+
+  // Every 5-day milestone earns a fresh freeze, capped so it stays a treat.
+  if (streak > base.streak && streak % FREEZE_MILESTONE === 0) {
+    streakFreezes = Math.min(MAX_STREAK_FREEZES, streakFreezes + 1);
+  }
 
   const next: ProgressState = {
     ...base,
@@ -246,10 +278,13 @@ export function awardXp(state: ProgressState, amount: number): ProgressState {
     streak,
     bestStreak: Math.max(base.bestStreak, streak),
     lastActiveDay: today,
+    streakFreezes,
+    freezesUsed,
   };
 
   return syncAchievements(next);
 }
+
 
 export function syncAchievements(state: ProgressState): ProgressState {
   const unlocked = new Set(state.unlockedAchievements);
