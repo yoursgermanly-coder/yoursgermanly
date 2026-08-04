@@ -117,6 +117,71 @@ function ProgressPage() {
         </div>
       </Card>
 
+      <section aria-label="Daily missions" className="mt-5">
+        <h2 className="mb-3 text-base font-bold">Today's missions</h2>
+        <div className="space-y-3">
+          {DAILY_MISSIONS.map((mission) => {
+            const status = missionStatus(progress, mission);
+            return (
+              <Card key={mission.id} className="shadow-soft rounded-3xl border-none p-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl" aria-hidden="true">
+                    {mission.emoji}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-sm font-bold">{mission.title}</h3>
+                    <p className="text-xs text-muted-foreground">{mission.description}</p>
+                    <Progress value={status.percent} className="mt-2 h-1.5" />
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {status.current} / {mission.target} · +{mission.reward} XP
+                    </p>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant={status.isComplete && !status.isClaimed ? "default" : "secondary"}
+                    disabled={!status.isComplete || status.isClaimed}
+                    onClick={() => handleClaim(mission.id)}
+                    className="rounded-full"
+                  >
+                    {status.isClaimed ? "Claimed" : "Claim"}
+                  </Button>
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+      </section>
+
+      <Card className="shadow-soft mt-3 rounded-3xl border-none p-5">
+        <div className="flex items-center gap-3">
+          <span className="flex size-11 items-center justify-center rounded-2xl bg-secondary/25 text-primary">
+            <Snowflake className="size-5" aria-hidden="true" />
+          </span>
+          <div className="flex-1">
+            <h2 className="text-base font-bold">Streak freezes</h2>
+            <p className="text-xs text-muted-foreground">
+              A freeze saves your streak if you miss one day. Earn one every 5 streak days.
+            </p>
+          </div>
+        </div>
+        <div className="mt-3 flex gap-2" aria-label={`${progress.streakFreezes} freezes available`}>
+          {Array.from({ length: MAX_STREAK_FREEZES }).map((_, index) => (
+            <span
+              key={index}
+              aria-hidden="true"
+              className={cn(
+                "flex h-10 flex-1 items-center justify-center rounded-2xl text-lg",
+                index < progress.streakFreezes ? "bg-secondary/30" : "bg-muted opacity-60",
+              )}
+            >
+              {index < progress.streakFreezes ? "🧊" : "·"}
+            </span>
+          ))}
+        </div>
+      </Card>
+
+      <LeaderboardSection />
+
       <section aria-label="Achievements" className="mt-5">
         <h2 className="mb-3 text-base font-bold">Achievements</h2>
         <div className="grid grid-cols-2 gap-3">
