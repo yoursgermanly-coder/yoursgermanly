@@ -174,7 +174,29 @@ export const ACHIEVEMENTS: Achievement[] = [
     emoji: "⭐",
     isUnlocked: (state) => state.totalXp >= 500,
   },
+  {
+    id: "mission-master",
+    title: "Mission master",
+    description: "Claim all three daily missions in one day.",
+    emoji: "🚀",
+    isUnlocked: (state) => state.claimedMissions.length >= DAILY_MISSIONS.length,
+  },
+  {
+    id: "ice-saver",
+    title: "Ice saver",
+    description: "Let a streak freeze rescue your streak.",
+    emoji: "🧊",
+    isUnlocked: (state) => state.freezesUsed >= 1,
+  },
+  {
+    id: "streak-30",
+    title: "Monatsheld",
+    description: "Keep a 30-day streak.",
+    emoji: "👑",
+    isUnlocked: (state) => state.bestStreak >= 30,
+  },
 ];
+
 
 export const LEVEL_TITLES = ["Beginner", "Explorer", "Achiever", "Advanced", "Master"] as const;
 
