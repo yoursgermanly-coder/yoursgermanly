@@ -17,14 +17,20 @@ export type Database = {
       learning_progress: {
         Row: {
           best_streak: number
+          claimed_missions: string[]
           correct_answers: number
           created_at: string
           daily_goal: number
+          freezes_used: number
           last_active_day: string | null
           perfect_rounds: number
           quizzes_completed: number
           streak: number
+          streak_freezes: number
+          today_correct: number
           today_key: string
+          today_quizzes: number
+          today_translations: number
           today_xp: number
           total_xp: number
           translations: number
@@ -34,14 +40,20 @@ export type Database = {
         }
         Insert: {
           best_streak?: number
+          claimed_missions?: string[]
           correct_answers?: number
           created_at?: string
           daily_goal?: number
+          freezes_used?: number
           last_active_day?: string | null
           perfect_rounds?: number
           quizzes_completed?: number
           streak?: number
+          streak_freezes?: number
+          today_correct?: number
           today_key?: string
+          today_quizzes?: number
+          today_translations?: number
           today_xp?: number
           total_xp?: number
           translations?: number
@@ -51,14 +63,20 @@ export type Database = {
         }
         Update: {
           best_streak?: number
+          claimed_missions?: string[]
           correct_answers?: number
           created_at?: string
           daily_goal?: number
+          freezes_used?: number
           last_active_day?: string | null
           perfect_rounds?: number
           quizzes_completed?: number
           streak?: number
+          streak_freezes?: number
+          today_correct?: number
           today_key?: string
+          today_quizzes?: number
+          today_translations?: number
           today_xp?: number
           total_xp?: number
           translations?: number
@@ -159,7 +177,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_leaderboard: {
+        Args: { _limit?: number }
+        Returns: {
+          avatar_url: string
+          display_name: string
+          streak: number
+          total_xp: number
+          user_id: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

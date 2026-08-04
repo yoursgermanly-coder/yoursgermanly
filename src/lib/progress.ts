@@ -11,6 +11,10 @@ export const DEFAULT_DAILY_GOAL = 50;
 
 const STORAGE_KEY = "lernexa.progress.v1";
 
+export const MAX_STREAK_FREEZES = 3;
+/** A freeze is granted every time the streak crosses one of these milestones. */
+const FREEZE_MILESTONE = 5;
+
 export type ProgressState = {
   totalXp: number;
   dailyGoal: number;
@@ -24,6 +28,12 @@ export type ProgressState = {
   translations: number;
   perfectRounds: number;
   unlockedAchievements: string[];
+  todayCorrect: number;
+  todayQuizzes: number;
+  todayTranslations: number;
+  claimedMissions: string[];
+  streakFreezes: number;
+  freezesUsed: number;
 };
 
 export const INITIAL_PROGRESS: ProgressState = {
@@ -39,7 +49,65 @@ export const INITIAL_PROGRESS: ProgressState = {
   translations: 0,
   perfectRounds: 0,
   unlockedAchievements: [],
+  todayCorrect: 0,
+  todayQuizzes: 0,
+  todayTranslations: 0,
+  claimedMissions: [],
+  streakFreezes: 1,
+  freezesUsed: 0,
 };
+
+export type DailyMission = {
+  id: string;
+  title: string;
+  description: string;
+  emoji: string;
+  reward: number;
+  target: number;
+  current: (state: ProgressState) => number;
+};
+
+/** Three light missions that reset every calendar day. */
+export const DAILY_MISSIONS: DailyMission[] = [
+  {
+    id: "mission-xp",
+    title: "Warm-up",
+    description: "Earn 20 XP today.",
+    emoji: "⚡",
+    reward: 15,
+    target: 20,
+    current: (state) => state.todayXp,
+  },
+  {
+    id: "mission-correct",
+    title: "Sharp shooter",
+    description: "Get 5 answers right today.",
+    emoji: "🎯",
+    reward: 20,
+    target: 5,
+    current: (state) => state.todayCorrect,
+  },
+  {
+    id: "mission-translate",
+    title: "Phrase collector",
+    description: "Translate 3 phrases today.",
+    emoji: "🔤",
+    reward: 10,
+    target: 3,
+    current: (state) => state.todayTranslations,
+  },
+];
+
+export function missionStatus(state: ProgressState, mission: DailyMission) {
+  const current = Math.min(mission.current(state), mission.target);
+  return {
+    current,
+    percent: Math.round((current / mission.target) * 100),
+    isComplete: current >= mission.target,
+    isClaimed: state.claimedMissions.includes(mission.id),
+  };
+}
+
 
 export type Achievement = {
   id: string;
@@ -106,7 +174,29 @@ export const ACHIEVEMENTS: Achievement[] = [
     emoji: "⭐",
     isUnlocked: (state) => state.totalXp >= 500,
   },
+  {
+    id: "mission-master",
+    title: "Mission master",
+    description: "Claim all three daily missions in one day.",
+    emoji: "🚀",
+    isUnlocked: (state) => state.claimedMissions.length >= DAILY_MISSIONS.length,
+  },
+  {
+    id: "ice-saver",
+    title: "Ice saver",
+    description: "Let a streak freeze rescue your streak.",
+    emoji: "🧊",
+    isUnlocked: (state) => state.freezesUsed >= 1,
+  },
+  {
+    id: "streak-30",
+    title: "Monatsheld",
+    description: "Keep a 30-day streak.",
+    emoji: "👑",
+    isUnlocked: (state) => state.bestStreak >= 30,
+  },
 ];
+
 
 export const LEVEL_TITLES = ["Beginner", "Explorer", "Achiever", "Advanced", "Master"] as const;
 
@@ -132,22 +222,54 @@ export function getLevel(totalXp: number) {
   };
 }
 
-/** Rolls the daily counter over when the calendar day changed. */
+/** Rolls the daily counters and missions over when the calendar day changed. */
 export function withFreshDay(state: ProgressState): ProgressState {
   const today = getDayKey();
   if (state.todayKey === today) return state;
-  return { ...state, todayKey: today, todayXp: 0 };
+  return {
+    ...state,
+    todayKey: today,
+    todayXp: 0,
+    todayCorrect: 0,
+    todayQuizzes: 0,
+    todayTranslations: 0,
+    claimedMissions: [],
+  };
+}
+
+function daysBetween(from: string, to: string): number {
+  const start = new Date(`${from}T00:00:00`).getTime();
+  const end = new Date(`${to}T00:00:00`).getTime();
+  return Math.round((end - start) / 86_400_000);
 }
 
 export function awardXp(state: ProgressState, amount: number): ProgressState {
   const today = getDayKey();
   const base = withFreshDay(state);
   const isNewDay = base.lastActiveDay !== today;
-  const streak = isNewDay
-    ? base.lastActiveDay === getYesterdayKey()
-      ? base.streak + 1
-      : 1
-    : base.streak;
+
+  let streak = base.streak;
+  let streakFreezes = base.streakFreezes;
+  let freezesUsed = base.freezesUsed;
+
+  if (isNewDay) {
+    const gap = base.lastActiveDay ? daysBetween(base.lastActiveDay, today) : Number.POSITIVE_INFINITY;
+    if (gap === 1) {
+      streak = base.streak + 1;
+    } else if (gap === 2 && base.streakFreezes > 0) {
+      // One missed day is forgiven by spending a freeze.
+      streak = base.streak + 1;
+      streakFreezes -= 1;
+      freezesUsed += 1;
+    } else {
+      streak = 1;
+    }
+  }
+
+  // Every 5-day milestone earns a fresh freeze, capped so it stays a treat.
+  if (streak > base.streak && streak % FREEZE_MILESTONE === 0) {
+    streakFreezes = Math.min(MAX_STREAK_FREEZES, streakFreezes + 1);
+  }
 
   const next: ProgressState = {
     ...base,
@@ -156,10 +278,13 @@ export function awardXp(state: ProgressState, amount: number): ProgressState {
     streak,
     bestStreak: Math.max(base.bestStreak, streak),
     lastActiveDay: today,
+    streakFreezes,
+    freezesUsed,
   };
 
   return syncAchievements(next);
 }
+
 
 export function syncAchievements(state: ProgressState): ProgressState {
   const unlocked = new Set(state.unlockedAchievements);
