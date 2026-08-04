@@ -18,6 +18,7 @@ import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as TranslateRouteImport } from './routes/translate'
 import { Route as VocabularyRouteImport } from './routes/vocabulary'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiTranscribeRouteImport } from './routes/api/transcribe'
 import { Route as TutorIndexRouteImport } from './routes/tutor.index'
 import { Route as TutorThreadIdRouteImport } from './routes/tutor.$threadId'
 
@@ -66,6 +67,11 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiTranscribeRoute = ApiTranscribeRouteImport.update({
+  id: '/api/transcribe',
+  path: '/api/transcribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TutorIndexRoute = TutorIndexRouteImport.update({
   id: '/tutor/',
   path: '/tutor/',
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/translate': typeof TranslateRoute
   '/vocabulary': typeof VocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/transcribe': typeof ApiTranscribeRoute
   '/tutor/$threadId': typeof TutorThreadIdRoute
   '/tutor/': typeof TutorIndexRoute
 }
@@ -100,6 +107,7 @@ export interface FileRoutesByTo {
   '/translate': typeof TranslateRoute
   '/vocabulary': typeof VocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/transcribe': typeof ApiTranscribeRoute
   '/tutor/$threadId': typeof TutorThreadIdRoute
   '/tutor': typeof TutorIndexRoute
 }
@@ -114,6 +122,7 @@ export interface FileRoutesById {
   '/translate': typeof TranslateRoute
   '/vocabulary': typeof VocabularyRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/transcribe': typeof ApiTranscribeRoute
   '/tutor/$threadId': typeof TutorThreadIdRoute
   '/tutor/': typeof TutorIndexRoute
 }
@@ -129,6 +138,7 @@ export interface FileRouteTypes {
     | '/translate'
     | '/vocabulary'
     | '/api/chat'
+    | '/api/transcribe'
     | '/tutor/$threadId'
     | '/tutor/'
   fileRoutesByTo: FileRoutesByTo
@@ -142,6 +152,7 @@ export interface FileRouteTypes {
     | '/translate'
     | '/vocabulary'
     | '/api/chat'
+    | '/api/transcribe'
     | '/tutor/$threadId'
     | '/tutor'
   id:
@@ -155,6 +166,7 @@ export interface FileRouteTypes {
     | '/translate'
     | '/vocabulary'
     | '/api/chat'
+    | '/api/transcribe'
     | '/tutor/$threadId'
     | '/tutor/'
   fileRoutesById: FileRoutesById
@@ -169,6 +181,7 @@ export interface RootRouteChildren {
   TranslateRoute: typeof TranslateRoute
   VocabularyRoute: typeof VocabularyRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiTranscribeRoute: typeof ApiTranscribeRoute
   TutorThreadIdRoute: typeof TutorThreadIdRoute
   TutorIndexRoute: typeof TutorIndexRoute
 }
@@ -238,6 +251,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/transcribe': {
+      id: '/api/transcribe'
+      path: '/api/transcribe'
+      fullPath: '/api/transcribe'
+      preLoaderRoute: typeof ApiTranscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tutor/': {
       id: '/tutor/'
       path: '/tutor'
@@ -265,19 +285,10 @@ const rootRouteChildren: RootRouteChildren = {
   TranslateRoute: TranslateRoute,
   VocabularyRoute: VocabularyRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiTranscribeRoute: ApiTranscribeRoute,
   TutorThreadIdRoute: TutorThreadIdRoute,
   TutorIndexRoute: TutorIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

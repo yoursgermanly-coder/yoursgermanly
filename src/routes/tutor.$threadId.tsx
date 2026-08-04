@@ -40,7 +40,7 @@ export const Route = createFileRoute("/tutor/$threadId")({
       {
         name: "description",
         content:
-          "Practise German in a friendly chat with Lena, your AI tutor: instant corrections, pronunciation hints and conversation practice.",
+          "Practise German in a friendly chat with Chinnu, your AI tutor: instant corrections, pronunciation hints and conversation practice.",
       },
       { property: "og:title", content: "Chat with your AI German Tutor | Lernexa" },
       {
@@ -142,7 +142,7 @@ function ChatWindow({
     id: threadId,
     messages: initialMessages,
     transport,
-    onError: (error) => toast.error(error.message || "Lena couldn't reply. Please try again."),
+    onError: (error) => toast.error(error.message || "Chinnu couldn't reply. Please try again."),
   });
 
   const isBusy = status === "submitted" || status === "streaming";
@@ -194,7 +194,7 @@ function ChatWindow({
         />
         <div className="min-w-0">
           <p className="truncate text-base font-bold">{title}</p>
-          <p className="text-xs opacity-90">Lena · your German tutor</p>
+          <p className="text-xs opacity-90">Chinnu · your German tutor</p>
         </div>
       </header>
 
@@ -207,7 +207,7 @@ function ChatWindow({
               icon={
                 <img
                   src={tutorAvatar}
-                  alt="Lena, your AI German tutor"
+                  alt="Chinnu, your AI German tutor"
                   width={512}
                   height={512}
                   loading="lazy"
@@ -249,7 +249,7 @@ function ChatWindow({
           {status === "submitted" ? (
             <Message from="assistant">
               <MessageContent className="bg-transparent p-0">
-                <Shimmer>Lena is thinking…</Shimmer>
+                <Shimmer>Chinnu is thinking…</Shimmer>
               </MessageContent>
             </Message>
           ) : null}
@@ -268,7 +268,7 @@ function ChatWindow({
             ref={textareaRef}
             value={input}
             onChange={(event) => setInput(event.target.value)}
-            placeholder="Ask Lena anything about German…"
+            placeholder="Ask Chinnu anything about German…"
           />
           <PromptInputFooter className="justify-end">
             <PromptInputSubmit status={status} disabled={!input.trim() || isBusy} />

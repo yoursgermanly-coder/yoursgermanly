@@ -45,7 +45,7 @@ const FEATURES = [
     to: "/tutor",
     icon: MessageCircle,
     title: "AI tutor",
-    description: "Chat with Lena for practice, corrections and answers any time.",
+    description: "Chat with Chinnu for practice, corrections and answers any time.",
   },
   {
     to: "/grammar",
