@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as GrammarRouteImport } from './routes/grammar'
 import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as QuizRouteImport } from './routes/quiz'
+import { Route as SpeakRouteImport } from './routes/speak'
 import { Route as TranslateRouteImport } from './routes/translate'
 import { Route as VocabularyRouteImport } from './routes/vocabulary'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -50,6 +51,11 @@ const ProgressRoute = ProgressRouteImport.update({
 const QuizRoute = QuizRouteImport.update({
   id: '/quiz',
   path: '/quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SpeakRoute = SpeakRouteImport.update({
+  id: '/speak',
+  path: '/speak',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TranslateRoute = TranslateRouteImport.update({
@@ -90,6 +96,7 @@ export interface FileRoutesByFullPath {
   '/grammar': typeof GrammarRoute
   '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
+  '/speak': typeof SpeakRoute
   '/translate': typeof TranslateRoute
   '/vocabulary': typeof VocabularyRoute
   '/api/chat': typeof ApiChatRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByTo {
   '/grammar': typeof GrammarRoute
   '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
+  '/speak': typeof SpeakRoute
   '/translate': typeof TranslateRoute
   '/vocabulary': typeof VocabularyRoute
   '/api/chat': typeof ApiChatRoute
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   '/grammar': typeof GrammarRoute
   '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
+  '/speak': typeof SpeakRoute
   '/translate': typeof TranslateRoute
   '/vocabulary': typeof VocabularyRoute
   '/api/chat': typeof ApiChatRoute
@@ -135,6 +144,7 @@ export interface FileRouteTypes {
     | '/grammar'
     | '/progress'
     | '/quiz'
+    | '/speak'
     | '/translate'
     | '/vocabulary'
     | '/api/chat'
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/grammar'
     | '/progress'
     | '/quiz'
+    | '/speak'
     | '/translate'
     | '/vocabulary'
     | '/api/chat'
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/grammar'
     | '/progress'
     | '/quiz'
+    | '/speak'
     | '/translate'
     | '/vocabulary'
     | '/api/chat'
@@ -178,6 +190,7 @@ export interface RootRouteChildren {
   GrammarRoute: typeof GrammarRoute
   ProgressRoute: typeof ProgressRoute
   QuizRoute: typeof QuizRoute
+  SpeakRoute: typeof SpeakRoute
   TranslateRoute: typeof TranslateRoute
   VocabularyRoute: typeof VocabularyRoute
   ApiChatRoute: typeof ApiChatRoute
@@ -228,6 +241,13 @@ declare module '@tanstack/react-router' {
       path: '/quiz'
       fullPath: '/quiz'
       preLoaderRoute: typeof QuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/speak': {
+      id: '/speak'
+      path: '/speak'
+      fullPath: '/speak'
+      preLoaderRoute: typeof SpeakRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/translate': {
@@ -282,6 +302,7 @@ const rootRouteChildren: RootRouteChildren = {
   GrammarRoute: GrammarRoute,
   ProgressRoute: ProgressRoute,
   QuizRoute: QuizRoute,
+  SpeakRoute: SpeakRoute,
   TranslateRoute: TranslateRoute,
   VocabularyRoute: VocabularyRoute,
   ApiChatRoute: ApiChatRoute,
