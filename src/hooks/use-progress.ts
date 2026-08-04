@@ -9,11 +9,14 @@ import {
   XP_PER_TRANSLATION,
   awardXp,
   loadProgress,
+  missionStatus,
   saveProgress,
   syncAchievements,
   withFreshDay,
+  type DailyMission,
   type ProgressState,
 } from "@/lib/progress";
+
 
 type Listener = () => void;
 
