@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BookOpen, Flame, GraduationCap, Languages, MessageCircle, MessagesSquare, Mic, Sparkles, SpellCheck } from "lucide-react";
+import { BookOpen, Flame, GraduationCap, Languages, LineChart, MessageCircle, MessagesSquare, Mic, Sparkles, SpellCheck } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
 import { Card } from "@/components/ui/card";
@@ -64,6 +64,12 @@ const FEATURES = [
     icon: SpellCheck,
     title: "Grammar lessons",
     description: "Articles, cases and word order explained in plain English.",
+  },
+  {
+    to: "/insights",
+    icon: LineChart,
+    title: "Insights & plan",
+    description: "See your skill map and get a study plan built from your own progress.",
   },
   {
     to: "/quiz",
