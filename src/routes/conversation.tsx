@@ -20,6 +20,7 @@ import {
   type ConversationTurn,
 } from "@/lib/lernexa-schemas";
 import { startRecording, transcribeGerman, type Recorder } from "@/lib/speaking";
+import { logActivity } from "@/lib/insights";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/conversation")({
@@ -88,6 +89,7 @@ function ConversationPage() {
       speak(data.reply);
       if (userText) {
         const result = recordCorrectAnswer();
+        logActivity("conversation", result.xp);
         toast.success(`Nice reply! +${result.xp} XP`);
         for (const achievement of result.unlocked) {
           toast(`${achievement.emoji} Achievement unlocked: ${achievement.title}`);

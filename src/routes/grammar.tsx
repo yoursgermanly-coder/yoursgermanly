@@ -20,6 +20,7 @@ import {
 } from "@/lib/grammar";
 import { generateGrammarLesson } from "@/lib/lernexa.functions";
 import type { GrammarLesson } from "@/lib/lernexa-schemas";
+import { logActivity } from "@/lib/insights";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/grammar")({
@@ -165,6 +166,7 @@ function LessonView({
     setAnswers(next);
     if (choice === correctIndex) {
       const { xp } = recordCorrectAnswer();
+      logActivity("grammar", xp, 1, 1);
       toast.success(`Richtig! +${xp} XP`);
     }
     if (data && Object.keys(next).length === data.practice.length && !finished) {
