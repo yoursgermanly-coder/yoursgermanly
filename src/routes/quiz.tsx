@@ -188,7 +188,51 @@ function QuizPage() {
 
           {selected !== null ? (
             <>
-              <p className="mt-4 rounded-2xl bg-muted p-3 text-sm">💡 {current.explanation}</p>
+              <div className="mt-4 space-y-3 rounded-2xl bg-muted p-4">
+                <div>
+                  <h3 className="text-xs font-bold uppercase tracking-wide text-success">
+                    ✅ Correct answer: {current.options[current.correctIndex]}
+                  </h3>
+                  <p className="mt-1 text-sm">{current.explanation}</p>
+                </div>
+
+                {current.rule ? (
+                  <div>
+                    <h3 className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      📘 The rule
+                    </h3>
+                    <p className="mt-1 text-sm">{current.rule}</p>
+                  </div>
+                ) : null}
+
+                {current.optionFeedback?.length ? (
+                  <div>
+                    <h3 className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      🔍 Every option explained
+                    </h3>
+                    <ul className="mt-2 space-y-2">
+                      {current.options.map((option, optionIndex) => (
+                        <li key={option} className="flex gap-2 text-sm">
+                          <span aria-hidden="true">
+                            {optionIndex === current.correctIndex ? "✅" : "❌"}
+                          </span>
+                          <span>
+                            <span className="font-semibold">{option}</span>
+                            <span className="text-muted-foreground">
+                              {" "}
+                              — {current.optionFeedback[optionIndex]}
+                            </span>
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+
+                {current.tip ? (
+                  <p className="rounded-xl bg-accent/20 p-3 text-sm">💡 Remember: {current.tip}</p>
+                ) : null}
+              </div>
               <Button
                 size="lg"
                 onClick={handleNext}
@@ -198,6 +242,7 @@ function QuizPage() {
               </Button>
             </>
           ) : null}
+
         </Card>
       ) : null}
 
