@@ -227,8 +227,8 @@ function SpeakingDrill({ phrase }: { phrase: SpeakingPhrase }) {
       setResult({ score, heard });
       if (score >= 65) {
         const { xp } = recordCorrectAnswer();
-      logActivity("speaking", xp, 1, 1);
         logActivity("speaking", xp, 1, 1);
+
         toast.success(`Nice pronunciation! +${xp} XP`);
       }
     } catch (error) {
