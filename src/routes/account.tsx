@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { CloudCheck, CloudOff, LogOut } from "lucide-react";
+import { CloudCheck, CloudOff, LineChart, LogOut, Moon, Sun } from "lucide-react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
@@ -11,7 +11,8 @@ import { Label } from "@/components/ui/label";
 import { useAuth, useProfile } from "@/hooks/use-auth";
 import { useProgress } from "@/hooks/use-progress";
 import { supabase } from "@/integrations/supabase/client";
-import { getLevel } from "@/lib/progress";
+import { DAILY_GOAL_OPTIONS, getLevel } from "@/lib/progress";
+import { useTheme } from "@/hooks/use-theme";
 
 export const Route = createFileRoute("/account")({
   head: () => ({
@@ -37,7 +38,8 @@ export const Route = createFileRoute("/account")({
 function AccountPage() {
   const { user, isSignedIn, isLoading, signOut } = useAuth();
   const profile = useProfile(user?.id);
-  const { progress } = useProgress();
+  const { progress, setDailyGoal } = useProgress();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [displayName, setDisplayName] = useState("");
