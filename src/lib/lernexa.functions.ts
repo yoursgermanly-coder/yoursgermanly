@@ -9,6 +9,8 @@ import {
   QuizInput,
   QuizSchema,
   SpeakingSetInput,
+  StudyPlanInput,
+  StudyPlanSchema,
   SpeakingSetSchema,
   TranslateInput,
   TranslationSchema,
@@ -19,6 +21,7 @@ import {
   type GrammarLesson,
   type QuizQuestion,
   type SpeakingPhrase,
+  type StudyPlan,
   type Translation,
   type VocabularyItem,
 } from "./lernexa-schemas";
@@ -210,6 +213,39 @@ export const generateConversationTurn = createServerFn({ method: "POST" })
           (data.userText
             ? `The learner just said: "${data.userText}". Reply in character.`
             : "Start the conversation with a natural greeting in character."),
+      });
+      return output;
+    } catch (error) {
+      throw toFriendlyAiError(error);
+    }
+  });
+
+export const generateStudyPlan = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => StudyPlanInput.parse(input))
+  .handler(async ({ data }): Promise<StudyPlan> => {
+    const key = process.env["LOVABLE_API_KEY"];
+    if (!key) throw new Error("AI is not configured yet.");
+
+    const { createLovableAiGatewayProvider, CHAT_MODEL } = await import("./ai-gateway.server");
+    const gateway = createLovableAiGatewayProvider(key);
+
+    try {
+      const { output } = await generateText({
+        model: gateway(CHAT_MODEL),
+        output: Output.object({ schema: StudyPlanSchema }),
+        temperature: 1,
+        system:
+          "You are a warm, motivating German learning coach. You design a short personalised study plan for today. " +
+          "`headline` is a friendly one-line greeting about their momentum. " +
+          "`focus` names the single skill to prioritise today. `why` explains that choice in one simple sentence based on their data. " +
+          "Each step has a clear title, a one-sentence detail with something concrete to practise, a realistic minute count, " +
+          "and the matching `skill` id. The minutes across steps must roughly add up to the learner's available time. " +
+          "`encouragement` is one short, kind closing line. Use simple English and never shame the learner.",
+        prompt:
+          `Learner data — CEFR level: ${data.level}; minutes available today: ${data.minutes}; ` +
+          `current streak: ${data.streak} days; XP in the last 7 days: ${data.weekXp}; ` +
+          `strongest skill: ${data.strongest || "unknown"}; weakest skill: ${data.weakest || "unknown"}; ` +
+          `never practised: ${data.untouched.join(", ") || "none"}; vocabulary words due for review: ${data.dueWords}.`,
       });
       return output;
     } catch (error) {
