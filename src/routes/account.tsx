@@ -126,6 +126,64 @@ function AccountPage() {
         </form>
       </section>
 
+      <section className="mt-4 rounded-3xl border border-border bg-card p-5 shadow-sm">
+        <h2 className="text-base font-bold">Settings</h2>
+
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold">Appearance</p>
+            <p className="text-sm text-muted-foreground">Switch between light and dark.</p>
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            className="h-11 rounded-2xl"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          >
+            {theme === "dark" ? (
+              <>
+                <Sun className="size-4" aria-hidden="true" /> Light
+              </>
+            ) : (
+              <>
+                <Moon className="size-4" aria-hidden="true" /> Dark
+              </>
+            )}
+          </Button>
+        </div>
+
+        <div className="mt-5">
+          <p className="text-sm font-semibold">Daily XP goal</p>
+          <div className="mt-2 grid grid-cols-4 gap-2">
+            {DAILY_GOAL_OPTIONS.map((value) => (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={progress.dailyGoal === value}
+                onClick={() => {
+                  setDailyGoal(value);
+                  toast.success(`Daily goal set to ${value} XP.`);
+                }}
+                className={`h-11 rounded-2xl border border-border text-sm font-semibold transition-colors ${
+                  progress.dailyGoal === value
+                    ? "border-transparent bg-primary text-primary-foreground"
+                    : "bg-card"
+                }`}
+              >
+                {value}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <Button asChild variant="outline" className="mt-5 h-12 w-full rounded-2xl">
+          <Link to="/insights">
+            <LineChart className="size-4" aria-hidden="true" /> View learning insights
+          </Link>
+        </Button>
+      </section>
+
       <Button
         variant="outline"
         className="mt-4 h-12 w-full rounded-2xl"
@@ -137,3 +195,4 @@ function AccountPage() {
     </AppShell>
   );
 }
+
