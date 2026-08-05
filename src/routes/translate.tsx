@@ -24,9 +24,10 @@ import { useGermanSpeech } from "@/hooks/use-german-speech";
 import { useProgress } from "@/hooks/use-progress";
 import { translateToGerman } from "@/lib/lernexa.functions";
 import type { Translation, TranslationDirection } from "@/lib/lernexa-schemas";
-import {
 import { logActivity } from "@/lib/insights";
+import {
   cacheKey,
+
   findCached,
   loadHistory,
   saveHistory,
