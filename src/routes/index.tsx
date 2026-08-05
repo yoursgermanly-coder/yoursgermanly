@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BookOpen, Flame, GraduationCap, Languages, MessageCircle, Mic, Sparkles, SpellCheck } from "lucide-react";
+import { BookOpen, Flame, GraduationCap, Languages, MessageCircle, MessagesSquare, Mic, Sparkles, SpellCheck } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
 import { Card } from "@/components/ui/card";
@@ -46,6 +46,12 @@ const FEATURES = [
     icon: MessageCircle,
     title: "AI tutor",
     description: "Chat with Chinnu for practice, corrections and answers any time.",
+  },
+  {
+    to: "/conversation",
+    icon: MessagesSquare,
+    title: "Real-life talks",
+    description: "Role-play a café, a doctor's visit or a job interview with instant corrections.",
   },
   {
     to: "/speak",

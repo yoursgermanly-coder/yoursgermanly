@@ -42,10 +42,14 @@ export const QuizSchema = z.object({
         options: z.array(z.string()).length(4),
         correctIndex: z.number().int().min(0).max(3),
         explanation: z.string(),
+        rule: z.string(),
+        optionFeedback: z.array(z.string()).length(4),
+        tip: z.string(),
       }),
     )
     .min(1),
 });
+
 
 export type QuizQuestion = z.infer<typeof QuizSchema>["questions"][number];
 
@@ -178,3 +182,43 @@ export const SpeakingSetSchema = z.object({
 });
 
 export type SpeakingPhrase = z.infer<typeof SpeakingSetSchema>["phrases"][number];
+
+export const CONVERSATION_SCENARIOS = [
+  { id: "cafe", title: "Ordering in a café", emoji: "☕", partner: "a friendly barista in Berlin" },
+  { id: "directions", title: "Asking for directions", emoji: "🗺️", partner: "a helpful passer-by on the street" },
+  { id: "shopping", title: "Shopping for clothes", emoji: "🛍️", partner: "a shop assistant in a clothing store" },
+  { id: "doctor", title: "At the doctor", emoji: "🩺", partner: "a calm family doctor" },
+  { id: "hotel", title: "Checking into a hotel", emoji: "🏨", partner: "a hotel receptionist" },
+  { id: "smalltalk", title: "Small talk with a neighbour", emoji: "👋", partner: "your chatty neighbour Frau Weber" },
+  { id: "interview", title: "Job interview", emoji: "💼", partner: "a polite hiring manager" },
+  { id: "train", title: "At the train station", emoji: "🚆", partner: "a ticket counter clerk" },
+] as const;
+
+export type ConversationScenario = (typeof CONVERSATION_SCENARIOS)[number];
+
+export const ConversationTurnInput = z.object({
+  scenarioTitle: z.string().min(1).max(80),
+  partner: z.string().min(1).max(120),
+  level: z.enum(CEFR_LEVELS),
+  history: z
+    .array(z.object({ role: z.enum(["learner", "partner"]), text: z.string().max(600) }))
+    .max(30)
+    .default([]),
+  userText: z.string().max(600).default(""),
+});
+
+export const ConversationTurnSchema = z.object({
+  reply: z.string(),
+  replyEnglish: z.string(),
+  correction: z.object({
+    hasIssue: z.boolean(),
+    corrected: z.string(),
+    note: z.string(),
+  }),
+  suggestions: z
+    .array(z.object({ german: z.string(), english: z.string() }))
+    .min(2)
+    .max(3),
+});
+
+export type ConversationTurn = z.infer<typeof ConversationTurnSchema>;
