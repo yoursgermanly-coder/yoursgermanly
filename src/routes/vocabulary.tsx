@@ -35,6 +35,7 @@ import {
   saveDeck,
   type VocabularyWord,
 } from "@/lib/vocabulary";
+import { logActivity } from "@/lib/insights";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/vocabulary")({
@@ -183,6 +184,7 @@ function ReviewSection({
     setReviewed((count) => count + 1);
     if (quality >= 3) {
       const result = recordCorrectAnswer();
+      logActivity("vocabulary", result.xp, 1, 1);
       toast.success(`Nice! +${result.xp} XP`);
       for (const achievement of result.unlocked) {
         toast(`${achievement.emoji} Achievement unlocked: ${achievement.title}`);

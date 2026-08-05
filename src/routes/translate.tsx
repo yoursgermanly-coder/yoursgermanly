@@ -24,8 +24,10 @@ import { useGermanSpeech } from "@/hooks/use-german-speech";
 import { useProgress } from "@/hooks/use-progress";
 import { translateToGerman } from "@/lib/lernexa.functions";
 import type { Translation, TranslationDirection } from "@/lib/lernexa-schemas";
+import { logActivity } from "@/lib/insights";
 import {
   cacheKey,
+
   findCached,
   loadHistory,
   saveHistory,
@@ -95,6 +97,7 @@ function TranslatePage() {
         }),
       );
       const { xp, unlocked } = recordTranslation();
+      logActivity("translate", xp);
       toast.success(`Übersetzt! +${xp} XP`);
       for (const achievement of unlocked) {
         toast(`${achievement.emoji} Achievement unlocked: ${achievement.title}`);

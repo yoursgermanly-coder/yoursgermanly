@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { CloudCheck, CloudOff, LogOut } from "lucide-react";
+import { CloudCheck, CloudOff, LineChart, LogOut, Moon, Sun } from "lucide-react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
@@ -11,7 +11,8 @@ import { Label } from "@/components/ui/label";
 import { useAuth, useProfile } from "@/hooks/use-auth";
 import { useProgress } from "@/hooks/use-progress";
 import { supabase } from "@/integrations/supabase/client";
-import { getLevel } from "@/lib/progress";
+import { DAILY_GOAL_OPTIONS, getLevel } from "@/lib/progress";
+import { useTheme } from "@/hooks/use-theme";
 
 export const Route = createFileRoute("/account")({
   head: () => ({
@@ -37,7 +38,8 @@ export const Route = createFileRoute("/account")({
 function AccountPage() {
   const { user, isSignedIn, isLoading, signOut } = useAuth();
   const profile = useProfile(user?.id);
-  const { progress } = useProgress();
+  const { progress, setDailyGoal } = useProgress();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [displayName, setDisplayName] = useState("");
@@ -126,6 +128,64 @@ function AccountPage() {
         </form>
       </section>
 
+      <section className="mt-4 rounded-3xl border border-border bg-card p-5 shadow-sm">
+        <h2 className="text-base font-bold">Settings</h2>
+
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold">Appearance</p>
+            <p className="text-sm text-muted-foreground">Switch between light and dark.</p>
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            className="h-11 rounded-2xl"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          >
+            {theme === "dark" ? (
+              <>
+                <Sun className="size-4" aria-hidden="true" /> Light
+              </>
+            ) : (
+              <>
+                <Moon className="size-4" aria-hidden="true" /> Dark
+              </>
+            )}
+          </Button>
+        </div>
+
+        <div className="mt-5">
+          <p className="text-sm font-semibold">Daily XP goal</p>
+          <div className="mt-2 grid grid-cols-4 gap-2">
+            {DAILY_GOAL_OPTIONS.map((value) => (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={progress.dailyGoal === value}
+                onClick={() => {
+                  setDailyGoal(value);
+                  toast.success(`Daily goal set to ${value} XP.`);
+                }}
+                className={`h-11 rounded-2xl border border-border text-sm font-semibold transition-colors ${
+                  progress.dailyGoal === value
+                    ? "border-transparent bg-primary text-primary-foreground"
+                    : "bg-card"
+                }`}
+              >
+                {value}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <Button asChild variant="outline" className="mt-5 h-12 w-full rounded-2xl">
+          <Link to="/insights">
+            <LineChart className="size-4" aria-hidden="true" /> View learning insights
+          </Link>
+        </Button>
+      </section>
+
       <Button
         variant="outline"
         className="mt-4 h-12 w-full rounded-2xl"
@@ -137,3 +197,4 @@ function AccountPage() {
     </AppShell>
   );
 }
+

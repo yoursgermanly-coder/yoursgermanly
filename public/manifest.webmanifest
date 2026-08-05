@@ -1,0 +1,13 @@
+{
+  "name": "Lernexa — Learn German",
+  "short_name": "Lernexa",
+  "description": "Learn German with AI translation, quizzes, vocabulary, grammar, speaking and real-life conversation practice.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F4F3FF",
+  "theme_color": "#5C3BFE",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "48x48", "type": "image/x-icon" }
+  ]
+}

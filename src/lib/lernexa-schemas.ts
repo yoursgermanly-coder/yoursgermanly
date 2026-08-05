@@ -222,3 +222,34 @@ export const ConversationTurnSchema = z.object({
 });
 
 export type ConversationTurn = z.infer<typeof ConversationTurnSchema>;
+
+export const StudyPlanInput = z.object({
+  level: z.enum(CEFR_LEVELS),
+  minutes: z.number().int().min(5).max(60),
+  streak: z.number().int().min(0).max(2000),
+  weekXp: z.number().int().min(0).max(100000),
+  strongest: z.string().max(60).default(""),
+  weakest: z.string().max(60).default(""),
+  untouched: z.array(z.string().max(60)).max(6).default([]),
+  dueWords: z.number().int().min(0).max(10000).default(0),
+});
+
+export const StudyPlanSchema = z.object({
+  headline: z.string(),
+  focus: z.string(),
+  why: z.string(),
+  steps: z
+    .array(
+      z.object({
+        title: z.string(),
+        detail: z.string(),
+        minutes: z.number().int().min(1).max(30),
+        skill: z.enum(["quiz", "vocabulary", "translate", "grammar", "speaking", "conversation"]),
+      }),
+    )
+    .min(2)
+    .max(4),
+  encouragement: z.string(),
+});
+
+export type StudyPlan = z.infer<typeof StudyPlanSchema>;

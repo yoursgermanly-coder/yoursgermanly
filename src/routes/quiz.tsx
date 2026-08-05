@@ -12,6 +12,7 @@ import { Progress } from "@/components/ui/progress";
 import { useProgress } from "@/hooks/use-progress";
 import { generateQuiz } from "@/lib/lernexa.functions";
 import { CEFR_LEVELS, QUIZ_TOPICS, type CefrLevel, type QuizQuestion } from "@/lib/lernexa-schemas";
+import { logActivity } from "@/lib/insights";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/quiz")({
@@ -73,6 +74,7 @@ function QuizPage() {
     if (optionIndex === current.correctIndex) {
       setScore((value) => value + 1);
       celebrate(recordCorrectAnswer(), "Richtig! Nice work 🎉");
+      logActivity("quiz", 10, 1, 1);
     }
   };
 
@@ -80,6 +82,7 @@ function QuizPage() {
     const isLast = index + 1 === questions.length;
     setSelected(null);
     setIndex((value) => value + 1);
+    if (selected !== current?.correctIndex) logActivity("quiz", 0, 0, 1);
     if (isLast) celebrate(recordQuizRound(score, questions.length), "Round complete!");
   };
 

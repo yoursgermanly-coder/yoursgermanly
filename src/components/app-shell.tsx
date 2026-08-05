@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { BookOpen, Flame, Home, Languages, MessageCircle, MessagesSquare, Mic, SpellCheck, UserRound } from "lucide-react";
 
 import { useProgress } from "@/hooks/use-progress";
+import { useTheme } from "@/hooks/use-theme";
 
 const NAV_ITEMS = [
   { to: "/", label: "Home", icon: Home },
@@ -50,6 +51,7 @@ export function AppShell({
   children: React.ReactNode;
 }) {
   const { progress } = useProgress();
+  useTheme();
 
   return (
     <div className="min-h-screen bg-background pb-24">
