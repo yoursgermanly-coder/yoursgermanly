@@ -42,10 +42,14 @@ export const QuizSchema = z.object({
         options: z.array(z.string()).length(4),
         correctIndex: z.number().int().min(0).max(3),
         explanation: z.string(),
+        rule: z.string(),
+        optionFeedback: z.array(z.string()).length(4),
+        tip: z.string(),
       }),
     )
     .min(1),
 });
+
 
 export type QuizQuestion = z.infer<typeof QuizSchema>["questions"][number];
 
