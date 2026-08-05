@@ -71,10 +71,16 @@ export const generateQuiz = createServerFn({ method: "POST" })
         output: Output.object({ schema: QuizSchema }),
         temperature: 1,
         system:
-          "You write fun, clear multiple-choice German practice questions for English speakers. " +
-          "Each question has exactly 4 options, exactly one correct answer, and a short encouraging explanation in simple English. " +
-          "Vary the questions every time and never repeat a sentence within one set.",
+          "You write fun, clear multiple-choice German practice questions for English speakers, and you teach through the answer review. " +
+          "Each question has exactly 4 options and exactly one correct answer. " +
+          "`explanation` says in 1-2 simple English sentences why the correct option is right. " +
+          "`rule` states the underlying German rule in one short, plain-English sentence (e.g. 'After the preposition mit the noun takes the dative case'). " +
+          "`optionFeedback` has exactly 4 entries, one per option in the same order: for the correct option start with 'Correct — ' and confirm why; " +
+          "for every wrong option explain in one short sentence exactly what is wrong with it (wrong gender, wrong case, wrong verb ending, means something else, etc.). " +
+          "`tip` is one memorable trick to remember this point next time. " +
+          "Use simple, encouraging English with no jargon, and vary the questions every time.",
         prompt: `Write ${data.count} CEFR ${data.level} German questions about "${data.topic}". Random seed: ${Math.random()}`,
+
       });
       return output.questions;
     } catch (error) {
