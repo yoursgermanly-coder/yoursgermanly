@@ -180,3 +180,25 @@
 @utility shadow-soft {
   box-shadow: 0 10px 30px -12px oklch(0.505 0.253 279 / 0.28);
 }
+
+@keyframes chinnu-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(1.5deg);
+  }
+}
+
+/* Playful idle bob for the Chinnu tutor mascot. */
+@utility animate-chinnu-float {
+  animation: chinnu-float 3.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-chinnu-float {
+    animation: none;
+  }
+}
+
