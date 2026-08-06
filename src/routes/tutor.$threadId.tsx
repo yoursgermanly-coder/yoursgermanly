@@ -187,11 +187,12 @@ function ChatWindow({
         <img
           src={tutorAvatar}
           alt=""
-          width={512}
-          height={512}
+          width={816}
+          height={816}
           loading="lazy"
-          className="size-10 shrink-0 rounded-full bg-white/20 object-cover"
+          className="size-11 shrink-0 rounded-full bg-white/20 object-contain"
         />
+
         <div className="min-w-0">
           <p className="truncate text-base font-bold">{title}</p>
           <p className="text-xs opacity-90">Chinnu · your German tutor</p>
