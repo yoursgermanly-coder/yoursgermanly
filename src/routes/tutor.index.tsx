@@ -82,11 +82,12 @@ function TutorHomePage() {
           <img
             src={tutorAvatar}
             alt="Chinnu, your AI German tutor"
-            width={512}
-            height={512}
+            width={816}
+            height={816}
             loading="lazy"
-            className="size-16 shrink-0 rounded-2xl bg-secondary/20 object-cover"
+            className="animate-chinnu-float size-20 shrink-0 rounded-2xl bg-secondary/15 object-contain p-1"
           />
+
           <div>
             <h2 className="text-base font-bold">Hallo, ich bin Chinnu 👋</h2>
             <p className="mt-1 text-sm text-muted-foreground">
