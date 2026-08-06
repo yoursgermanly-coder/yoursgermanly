@@ -5,7 +5,7 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
-import tutorAvatar from "@/assets/tutor-lena.png";
+import tutorAvatar from "@/assets/tutor-chinnu.png";
 import {
   Conversation,
   ConversationContent,
@@ -187,11 +187,12 @@ function ChatWindow({
         <img
           src={tutorAvatar}
           alt=""
-          width={512}
-          height={512}
+          width={816}
+          height={816}
           loading="lazy"
-          className="size-10 shrink-0 rounded-full bg-white/20 object-cover"
+          className="size-11 shrink-0 rounded-full bg-white/20 object-contain"
         />
+
         <div className="min-w-0">
           <p className="truncate text-base font-bold">{title}</p>
           <p className="text-xs opacity-90">Chinnu · your German tutor</p>
@@ -208,11 +209,12 @@ function ChatWindow({
                 <img
                   src={tutorAvatar}
                   alt="Chinnu, your AI German tutor"
-                  width={512}
-                  height={512}
+                  width={816}
+                  height={816}
                   loading="lazy"
-                  className="size-20 rounded-full bg-secondary/20 object-cover"
+                  className="animate-chinnu-float size-28 rounded-full bg-secondary/15 object-contain"
                 />
+
               }
             >
               <div className="mt-2 flex w-full flex-col gap-2">
