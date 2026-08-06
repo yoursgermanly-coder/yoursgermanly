@@ -209,11 +209,12 @@ function ChatWindow({
                 <img
                   src={tutorAvatar}
                   alt="Chinnu, your AI German tutor"
-                  width={512}
-                  height={512}
+                  width={816}
+                  height={816}
                   loading="lazy"
-                  className="size-20 rounded-full bg-secondary/20 object-cover"
+                  className="animate-chinnu-float size-28 rounded-full bg-secondary/15 object-contain"
                 />
+
               }
             >
               <div className="mt-2 flex w-full flex-col gap-2">
