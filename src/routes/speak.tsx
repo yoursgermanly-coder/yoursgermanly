@@ -101,7 +101,9 @@ function SpeakPage() {
               onClick={() => setLevel(item)}
               className={cn(
                 "rounded-full px-3 py-1.5 text-xs font-semibold transition-colors",
-                level === item ? "bg-secondary text-secondary-foreground" : "bg-muted text-muted-foreground",
+                level === item
+                  ? "bg-secondary text-secondary-foreground"
+                  : "bg-muted text-muted-foreground",
               )}
             >
               {item}
@@ -166,8 +168,8 @@ function SpeakPage() {
         <Card className="shadow-soft mt-4 rounded-3xl border-none p-6 text-center">
           <Mic className="mx-auto size-8 text-primary" aria-hidden="true" />
           <p className="mt-3 text-sm text-muted-foreground">
-            Choose a situation and level, then practise saying real German sentences out loud. You'll
-            get an instant pronunciation score and a friendly tip.
+            Choose a situation and level, then practise saying real German sentences out loud.
+            You'll get an instant pronunciation score and a friendly tip.
           </p>
         </Card>
       )}
@@ -182,7 +184,12 @@ function PhraseAudio({ german }: { german: string }) {
       <Button variant="secondary" size="sm" className="rounded-full" onClick={() => speak(german)}>
         <Volume2 className="size-4" aria-hidden="true" /> Listen
       </Button>
-      <Button variant="outline" size="sm" className="rounded-full" onClick={() => speak(german, 0.6)}>
+      <Button
+        variant="outline"
+        size="sm"
+        className="rounded-full"
+        onClick={() => speak(german, 0.6)}
+      >
         <Volume2 className="size-4" aria-hidden="true" /> Slow
       </Button>
     </div>
@@ -232,7 +239,9 @@ function SpeakingDrill({ phrase }: { phrase: SpeakingPhrase }) {
         toast.success(`Nice pronunciation! +${xp} XP`);
       }
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong. Please try again.",
+      );
     } finally {
       setIsChecking(false);
     }

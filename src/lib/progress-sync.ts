@@ -90,8 +90,7 @@ export function mergeProgress(local: ProgressState, remote: ProgressState): Prog
     todayXp: Math.max(localToday, remoteToday),
     streak: Math.max(local.streak, remote.streak),
     bestStreak: Math.max(local.bestStreak, remote.bestStreak),
-    lastActiveDay:
-      [local.lastActiveDay, remote.lastActiveDay].filter(Boolean).sort().pop() ?? null,
+    lastActiveDay: [local.lastActiveDay, remote.lastActiveDay].filter(Boolean).sort().pop() ?? null,
     quizzesCompleted: Math.max(local.quizzesCompleted, remote.quizzesCompleted),
     correctAnswers: Math.max(local.correctAnswers, remote.correctAnswers),
     translations: Math.max(local.translations, remote.translations),
@@ -114,7 +113,6 @@ export function mergeProgress(local: ProgressState, remote: ProgressState): Prog
     ),
   });
 }
-
 
 export async function fetchRemoteProgress(userId: string): Promise<ProgressState | null> {
   const { data, error } = await supabase

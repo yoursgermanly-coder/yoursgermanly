@@ -21,7 +21,9 @@ export const Route = createFileRoute("/api/transcribe")({
           return new Response("No recording received. Please try again.", { status: 400 });
         }
         if (audio.size > MAX_UPLOAD_BYTES) {
-          return new Response("That recording is too long. Keep it under a minute.", { status: 400 });
+          return new Response("That recording is too long. Keep it under a minute.", {
+            status: 400,
+          });
         }
 
         const upstream = new FormData();
@@ -48,7 +50,9 @@ export const Route = createFileRoute("/api/transcribe")({
               status: 402,
             });
           }
-          return new Response("We couldn't hear that clearly. Please record again.", { status: 502 });
+          return new Response("We couldn't hear that clearly. Please record again.", {
+            status: 502,
+          });
         }
 
         const data = (await response.json()) as { text?: string };

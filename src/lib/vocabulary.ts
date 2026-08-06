@@ -99,9 +99,7 @@ export function removeWord(deck: VocabularyWord[], id: string): VocabularyWord[]
 }
 
 export function dueWords(deck: VocabularyWord[], now = Date.now()): VocabularyWord[] {
-  return deck
-    .filter((word) => word.dueAt <= now)
-    .sort((a, b) => a.dueAt - b.dueAt);
+  return deck.filter((word) => word.dueAt <= now).sort((a, b) => a.dueAt - b.dueAt);
 }
 
 /**
@@ -121,10 +119,7 @@ export function reviewWord(word: VocabularyWord, quality: number): VocabularyWor
     intervalDays = 0;
   }
 
-  easeFactor = Math.max(
-    1.3,
-    easeFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02)),
-  );
+  easeFactor = Math.max(1.3, easeFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02)));
 
   return {
     ...word,

@@ -17,7 +17,6 @@ import {
   type ProgressState,
 } from "@/lib/progress";
 
-
 type Listener = () => void;
 
 let state: ProgressState | null = null;
@@ -85,7 +84,8 @@ function setState(
 function newlyUnlockedTitles(previous: ProgressState, next: ProgressState) {
   const before = new Set(previous.unlockedAchievements);
   return ACHIEVEMENTS.filter(
-    (achievement) => next.unlockedAchievements.includes(achievement.id) && !before.has(achievement.id),
+    (achievement) =>
+      next.unlockedAchievements.includes(achievement.id) && !before.has(achievement.id),
   );
 }
 
@@ -143,7 +143,10 @@ export function useProgress() {
     if (!status.isComplete || status.isClaimed) return null;
 
     const [previous, next] = setState((state) =>
-      awardXp({ ...state, claimedMissions: [...state.claimedMissions, mission.id] }, mission.reward),
+      awardXp(
+        { ...state, claimedMissions: [...state.claimedMissions, mission.id] },
+        mission.reward,
+      ),
     );
     return { xp: mission.reward, unlocked: newlyUnlockedTitles(previous, next) };
   }, []);
@@ -161,4 +164,3 @@ export function useProgress() {
     setDailyGoal,
   };
 }
-

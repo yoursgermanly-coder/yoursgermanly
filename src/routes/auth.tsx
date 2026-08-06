@@ -15,7 +15,7 @@ type AuthSearch = { redirect?: string | undefined };
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (search: Record<string, unknown>): AuthSearch => ({
-    redirect: typeof search['redirect'] === "string" ? search['redirect'] : undefined,
+    redirect: typeof search["redirect"] === "string" ? search["redirect"] : undefined,
   }),
   head: () => ({
     meta: [
@@ -85,7 +85,9 @@ function AuthPage() {
         toast.success("Welcome back! Syncing your progress…");
       }
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong. Please try again.",
+      );
     } finally {
       setIsBusy(false);
     }

@@ -27,7 +27,6 @@ import type { Translation, TranslationDirection } from "@/lib/lernexa-schemas";
 import { logActivity } from "@/lib/insights";
 import {
   cacheKey,
-
   findCached,
   loadHistory,
   saveHistory,
@@ -191,7 +190,11 @@ function TranslatePage() {
             id="source-input"
             value={text}
             onChange={(event) => setText(event.target.value)}
-            placeholder={direction === "en-de" ? "e.g. Could you help me, please?" : "z. B. Kannst du mir helfen?"}
+            placeholder={
+              direction === "en-de"
+                ? "e.g. Could you help me, please?"
+                : "z. B. Kannst du mir helfen?"
+            }
             rows={4}
             maxLength={600}
             className="mt-2 resize-none rounded-2xl text-base"
@@ -285,7 +288,11 @@ function TranslatePage() {
               onClick={copyGerman}
               className="ml-auto h-8 rounded-full text-xs"
             >
-              {copied ? <Check className="size-4" aria-hidden="true" /> : <Copy className="size-4" aria-hidden="true" />}
+              {copied ? (
+                <Check className="size-4" aria-hidden="true" />
+              ) : (
+                <Copy className="size-4" aria-hidden="true" />
+              )}
               {copied ? "Copied" : "Copy"}
             </Button>
           </div>

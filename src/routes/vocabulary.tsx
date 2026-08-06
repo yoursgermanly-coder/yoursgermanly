@@ -1,15 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import {
-  BookOpen,
-  Loader2,
-  Plus,
-  RotateCcw,
-  Sparkles,
-  Trash2,
-  Volume2,
-} from "lucide-react";
+import { BookOpen, Loader2, Plus, RotateCcw, Sparkles, Trash2, Volume2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -347,7 +339,9 @@ function AddSection({
               onClick={() => setLevel(option)}
               className={cn(
                 "h-11 rounded-2xl border border-border text-sm font-semibold transition-colors",
-                level === option ? "border-transparent bg-primary text-primary-foreground" : "bg-card",
+                level === option
+                  ? "border-transparent bg-primary text-primary-foreground"
+                  : "bg-card",
               )}
             >
               {option}

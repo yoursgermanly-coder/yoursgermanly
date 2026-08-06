@@ -85,7 +85,10 @@ function ConversationPage() {
     },
     onSuccess: (data, userText) => {
       setLatest(data);
-      setTurns((value) => [...value, { role: "partner", text: data.reply, english: data.replyEnglish }]);
+      setTurns((value) => [
+        ...value,
+        { role: "partner", text: data.reply, english: data.replyEnglish },
+      ]);
       speak(data.reply);
       if (userText) {
         const result = recordCorrectAnswer();
@@ -161,7 +164,9 @@ function ConversationPage() {
                 onClick={() => setLevel(value)}
                 className={cn(
                   "h-12 rounded-2xl border border-border text-sm font-semibold transition-colors",
-                  level === value ? "border-transparent bg-primary text-primary-foreground" : "bg-card",
+                  level === value
+                    ? "border-transparent bg-primary text-primary-foreground"
+                    : "bg-card",
                 )}
               >
                 {value}

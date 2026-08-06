@@ -47,7 +47,10 @@ function QuizPage() {
   const { recordCorrectAnswer, recordQuizRound } = useProgress();
   const fetchQuiz = useServerFn(generateQuiz);
 
-  const celebrate = (result: { xp: number; unlocked: { emoji: string; title: string }[] }, message: string) => {
+  const celebrate = (
+    result: { xp: number; unlocked: { emoji: string; title: string }[] },
+    message: string,
+  ) => {
     toast.success(`${message} +${result.xp} XP`);
     for (const achievement of result.unlocked) {
       toast(`${achievement.emoji} Achievement unlocked: ${achievement.title}`);
@@ -86,7 +89,6 @@ function QuizPage() {
     if (isLast) celebrate(recordQuizRound(score, questions.length), "Round complete!");
   };
 
-
   return (
     <AppShell title="Practice quiz" subtitle="Unlimited questions, instant feedback.">
       {questions.length === 0 ? (
@@ -101,7 +103,9 @@ function QuizPage() {
                 onClick={() => setLevel(value)}
                 className={cn(
                   "h-12 rounded-2xl border border-border text-sm font-semibold transition-colors",
-                  level === value ? "bg-primary text-primary-foreground border-transparent" : "bg-card",
+                  level === value
+                    ? "bg-primary text-primary-foreground border-transparent"
+                    : "bg-card",
                 )}
               >
                 {value}
@@ -156,7 +160,10 @@ function QuizPage() {
               {level} · {score} correct
             </span>
           </div>
-          <Progress value={((index + (selected !== null ? 1 : 0)) / questions.length) * 100} className="mt-3 h-2" />
+          <Progress
+            value={((index + (selected !== null ? 1 : 0)) / questions.length) * 100}
+            className="mt-3 h-2"
+          />
 
           <h2 className="mt-5 text-lg leading-snug">{current.prompt}</h2>
 
@@ -179,7 +186,9 @@ function QuizPage() {
                     )}
                   >
                     <span>{option}</span>
-                    {revealed && isCorrect ? <Check className="size-5 text-success" aria-hidden="true" /> : null}
+                    {revealed && isCorrect ? (
+                      <Check className="size-5 text-success" aria-hidden="true" />
+                    ) : null}
                     {revealed && isChosen && !isCorrect ? (
                       <X className="size-5 text-destructive" aria-hidden="true" />
                     ) : null}
@@ -245,7 +254,6 @@ function QuizPage() {
               </Button>
             </>
           ) : null}
-
         </Card>
       ) : null}
 

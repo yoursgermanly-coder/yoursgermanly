@@ -1,12 +1,22 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BookOpen, Flame, GraduationCap, Languages, LineChart, MessageCircle, MessagesSquare, Mic, Sparkles, SpellCheck } from "lucide-react";
+import {
+  BookOpen,
+  Flame,
+  GraduationCap,
+  Languages,
+  LineChart,
+  MessageCircle,
+  MessagesSquare,
+  Mic,
+  Sparkles,
+  SpellCheck,
+} from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useProgress } from "@/hooks/use-progress";
 import { getLevel } from "@/lib/progress";
-
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -122,7 +132,6 @@ function HomePage() {
           </div>
         </div>
       </Card>
-
 
       <section aria-label="Learning tools" className="mt-4 space-y-3">
         {FEATURES.map(({ to, icon: Icon, title, description }) => (

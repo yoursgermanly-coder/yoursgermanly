@@ -50,7 +50,6 @@ export const QuizSchema = z.object({
     .min(1),
 });
 
-
 export type QuizQuestion = z.infer<typeof QuizSchema>["questions"][number];
 
 export const QUIZ_TOPICS = [
@@ -99,7 +98,6 @@ export const VocabularySchema = z.object({
 });
 
 export type VocabularyItem = z.infer<typeof VocabularySchema>["words"][number];
-
 
 export function toFriendlyAiError(error: unknown): Error {
   const message = error instanceof Error ? error.message : String(error);
@@ -185,11 +183,26 @@ export type SpeakingPhrase = z.infer<typeof SpeakingSetSchema>["phrases"][number
 
 export const CONVERSATION_SCENARIOS = [
   { id: "cafe", title: "Ordering in a café", emoji: "☕", partner: "a friendly barista in Berlin" },
-  { id: "directions", title: "Asking for directions", emoji: "🗺️", partner: "a helpful passer-by on the street" },
-  { id: "shopping", title: "Shopping for clothes", emoji: "🛍️", partner: "a shop assistant in a clothing store" },
+  {
+    id: "directions",
+    title: "Asking for directions",
+    emoji: "🗺️",
+    partner: "a helpful passer-by on the street",
+  },
+  {
+    id: "shopping",
+    title: "Shopping for clothes",
+    emoji: "🛍️",
+    partner: "a shop assistant in a clothing store",
+  },
   { id: "doctor", title: "At the doctor", emoji: "🩺", partner: "a calm family doctor" },
   { id: "hotel", title: "Checking into a hotel", emoji: "🏨", partner: "a hotel receptionist" },
-  { id: "smalltalk", title: "Small talk with a neighbour", emoji: "👋", partner: "your chatty neighbour Frau Weber" },
+  {
+    id: "smalltalk",
+    title: "Small talk with a neighbour",
+    emoji: "👋",
+    partner: "your chatty neighbour Frau Weber",
+  },
   { id: "interview", title: "Job interview", emoji: "💼", partner: "a polite hiring manager" },
   { id: "train", title: "At the train station", emoji: "🚆", partner: "a ticket counter clerk" },
 ] as const;

@@ -21,12 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useProgress } from "@/hooks/use-progress";
-import {
-  buildInsights,
-  getActivity,
-  getServerActivity,
-  subscribeToInsights,
-} from "@/lib/insights";
+import { buildInsights, getActivity, getServerActivity, subscribeToInsights } from "@/lib/insights";
 import { generateStudyPlan } from "@/lib/lernexa.functions";
 import { CEFR_LEVELS, type CefrLevel, type StudyPlan } from "@/lib/lernexa-schemas";
 import { dueWords, loadDeck } from "@/lib/vocabulary";
@@ -44,7 +39,8 @@ export const Route = createFileRoute("/insights")({
       { property: "og:title", content: "Your German Learning Insights | Lernexa" },
       {
         property: "og:description",
-        content: "Skill radar, weekly XP trends and an AI study plan personalised to your learning.",
+        content:
+          "Skill radar, weekly XP trends and an AI study plan personalised to your learning.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -176,7 +172,9 @@ function InsightsPage() {
               onClick={() => setLevel(value)}
               className={cn(
                 "h-11 rounded-2xl border border-border text-sm font-semibold transition-colors",
-                level === value ? "border-transparent bg-primary text-primary-foreground" : "bg-card",
+                level === value
+                  ? "border-transparent bg-primary text-primary-foreground"
+                  : "bg-card",
               )}
             >
               {value}
@@ -194,7 +192,9 @@ function InsightsPage() {
               onClick={() => setMinutes(value)}
               className={cn(
                 "h-11 rounded-2xl border border-border text-sm font-semibold transition-colors",
-                minutes === value ? "border-transparent bg-secondary text-secondary-foreground" : "bg-card",
+                minutes === value
+                  ? "border-transparent bg-secondary text-secondary-foreground"
+                  : "bg-card",
               )}
             >
               {value}m
@@ -214,7 +214,8 @@ function InsightsPage() {
             </>
           ) : (
             <>
-              <TrendingUp className="size-5" aria-hidden="true" /> {plan ? "Refresh plan" : "Build my plan"}
+              <TrendingUp className="size-5" aria-hidden="true" />{" "}
+              {plan ? "Refresh plan" : "Build my plan"}
             </>
           )}
         </Button>
@@ -224,7 +225,8 @@ function InsightsPage() {
             <div>
               <h3 className="text-base font-bold">{plan.headline}</h3>
               <p className="mt-1 text-sm text-muted-foreground">
-                Focus: <span className="font-semibold text-foreground">{plan.focus}</span> — {plan.why}
+                Focus: <span className="font-semibold text-foreground">{plan.focus}</span> —{" "}
+                {plan.why}
               </p>
             </div>
             <ol className="space-y-2">

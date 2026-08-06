@@ -151,7 +151,10 @@ export function feedbackForScore(score: number): { label: string; message: strin
     return { label: "Ausgezeichnet!", message: "That sounded really natural. Keep going!" };
   }
   if (score >= 65) {
-    return { label: "Gut gemacht!", message: "Very close — listen once more and polish the ending sounds." };
+    return {
+      label: "Gut gemacht!",
+      message: "Very close — listen once more and polish the ending sounds.",
+    };
   }
   if (score >= 40) {
     return { label: "Fast!", message: "You're getting there. Play the slow audio and try again." };

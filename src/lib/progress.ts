@@ -108,7 +108,6 @@ export function missionStatus(state: ProgressState, mission: DailyMission) {
   };
 }
 
-
 export type Achievement = {
   id: string;
   title: string;
@@ -197,7 +196,6 @@ export const ACHIEVEMENTS: Achievement[] = [
   },
 ];
 
-
 export const LEVEL_TITLES = ["Beginner", "Explorer", "Achiever", "Advanced", "Master"] as const;
 
 export function getDayKey(date = new Date()): string {
@@ -253,7 +251,9 @@ export function awardXp(state: ProgressState, amount: number): ProgressState {
   let freezesUsed = base.freezesUsed;
 
   if (isNewDay) {
-    const gap = base.lastActiveDay ? daysBetween(base.lastActiveDay, today) : Number.POSITIVE_INFINITY;
+    const gap = base.lastActiveDay
+      ? daysBetween(base.lastActiveDay, today)
+      : Number.POSITIVE_INFINITY;
     if (gap === 1) {
       streak = base.streak + 1;
     } else if (gap === 2 && base.streakFreezes > 0) {
@@ -284,7 +284,6 @@ export function awardXp(state: ProgressState, amount: number): ProgressState {
 
   return syncAchievements(next);
 }
-
 
 export function syncAchievements(state: ProgressState): ProgressState {
   const unlocked = new Set(state.unlockedAchievements);
