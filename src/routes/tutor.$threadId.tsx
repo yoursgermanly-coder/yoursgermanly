@@ -5,7 +5,7 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
-import tutorAvatar from "@/assets/tutor-lena.png";
+import tutorAvatar from "@/assets/tutor-chinnu.png";
 import {
   Conversation,
   ConversationContent,

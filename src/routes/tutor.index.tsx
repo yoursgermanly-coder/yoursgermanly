@@ -3,7 +3,7 @@ import { Loader2, MessageCircle, Plus, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import tutorAvatar from "@/assets/tutor-lena.png";
+import tutorAvatar from "@/assets/tutor-chinnu.png";
 import { AppShell } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
