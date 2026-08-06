@@ -40,7 +40,7 @@ function readEvents(): ActivityEvent[] {
   }
 }
 
-let listeners = new Set<() => void>();
+const listeners = new Set<() => void>();
 let cache: ActivityEvent[] | null = null;
 
 function emit(events: ActivityEvent[]) {
@@ -137,7 +137,9 @@ export function buildInsights(events: ActivityEvent[], days = 7): Insights {
   const maxXp = Math.max(1, ...skills.map((skill) => skill.xp));
   for (const skill of skills) {
     const practice = (skill.xp / maxXp) * 100;
-    skill.score = Math.round(skill.accuracy === null ? practice : practice * 0.6 + skill.accuracy * 0.4);
+    skill.score = Math.round(
+      skill.accuracy === null ? practice : practice * 0.6 + skill.accuracy * 0.4,
+    );
   }
 
   const practised = skills.filter((skill) => skill.sessions > 0);

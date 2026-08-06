@@ -186,15 +186,10 @@ function AccountPage() {
         </Button>
       </section>
 
-      <Button
-        variant="outline"
-        className="mt-4 h-12 w-full rounded-2xl"
-        onClick={handleSignOut}
-      >
+      <Button variant="outline" className="mt-4 h-12 w-full rounded-2xl" onClick={handleSignOut}>
         <LogOut className="size-4" aria-hidden="true" />
         Sign out
       </Button>
     </AppShell>
   );
 }
-

@@ -1,5 +1,15 @@
 import { Link } from "@tanstack/react-router";
-import { BookOpen, Flame, Home, Languages, MessageCircle, MessagesSquare, Mic, SpellCheck, UserRound } from "lucide-react";
+import {
+  BookOpen,
+  Flame,
+  Home,
+  Languages,
+  MessageCircle,
+  MessagesSquare,
+  Mic,
+  SpellCheck,
+  UserRound,
+} from "lucide-react";
 
 import { useProgress } from "@/hooks/use-progress";
 import { useTheme } from "@/hooks/use-theme";
@@ -13,8 +23,6 @@ const NAV_ITEMS = [
   { to: "/conversation", label: "Talks", icon: MessagesSquare },
   { to: "/tutor", label: "Tutor", icon: MessageCircle },
 ] as const;
-
-
 
 export function BottomNav() {
   return (

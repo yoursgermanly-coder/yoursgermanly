@@ -20,7 +20,6 @@ import {
 } from "@/lib/progress";
 import { cn } from "@/lib/utils";
 
-
 export const Route = createFileRoute("/progress")({
   head: () => ({
     meta: [
@@ -58,7 +57,6 @@ function ProgressPage() {
     }
   };
 
-
   return (
     <AppShell title="Your progress" subtitle="Every small step counts — keep the streak alive.">
       <Card className="shadow-soft rounded-3xl border-none p-5">
@@ -80,8 +78,16 @@ function ProgressPage() {
       </Card>
 
       <div className="mt-3 grid grid-cols-3 gap-3">
-        <StatTile icon={<Flame className="size-5" aria-hidden="true" />} label="Streak" value={`${progress.streak}d`} />
-        <StatTile icon={<Trophy className="size-5" aria-hidden="true" />} label="Total XP" value={`${progress.totalXp}`} />
+        <StatTile
+          icon={<Flame className="size-5" aria-hidden="true" />}
+          label="Streak"
+          value={`${progress.streak}d`}
+        />
+        <StatTile
+          icon={<Trophy className="size-5" aria-hidden="true" />}
+          label="Total XP"
+          value={`${progress.totalXp}`}
+        />
         <StatTile
           icon={<Target className="size-5" aria-hidden="true" />}
           label="Today"
@@ -280,7 +286,6 @@ function LeaderboardSection() {
     </section>
   );
 }
-
 
 function StatTile({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (

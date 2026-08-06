@@ -171,9 +171,7 @@ function LessonView({
     }
     if (data && Object.keys(next).length === data.practice.length && !finished) {
       setFinished(true);
-      const finalScore = data.practice.filter(
-        (item, i) => next[i] === item.correctIndex,
-      ).length;
+      const finalScore = data.practice.filter((item, i) => next[i] === item.correctIndex).length;
       recordQuizRound(finalScore, data.practice.length);
       onComplete(topic.id);
     }
@@ -271,12 +269,18 @@ function LessonView({
                             "flex w-full items-center justify-between gap-3 rounded-2xl border border-border px-4 py-3 text-left text-sm transition-colors",
                             !answered && "active:scale-[0.99]",
                             answered && isCorrect && "border-transparent bg-secondary/30",
-                            answered && isChosen && !isCorrect && "border-transparent bg-destructive/15",
+                            answered &&
+                              isChosen &&
+                              !isCorrect &&
+                              "border-transparent bg-destructive/15",
                           )}
                         >
                           {option}
                           {answered && isCorrect ? (
-                            <CheckCircle2 className="size-4 shrink-0 text-primary" aria-hidden="true" />
+                            <CheckCircle2
+                              className="size-4 shrink-0 text-primary"
+                              aria-hidden="true"
+                            />
                           ) : null}
                         </button>
                       );
@@ -292,7 +296,9 @@ function LessonView({
 
           {finished ? (
             <Card className="shadow-soft rounded-3xl border-none p-5 text-center">
-              <p className="text-base font-bold">Super gemacht! {score}/{total} correct 🎉</p>
+              <p className="text-base font-bold">
+                Super gemacht! {score}/{total} correct 🎉
+              </p>
               <p className="mt-1 text-sm text-muted-foreground">
                 This topic is marked as finished. Come back any time for a fresh lesson.
               </p>

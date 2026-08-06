@@ -12,7 +12,9 @@ export function useGermanSpeech() {
       return;
     }
     const pickVoice = () => {
-      const germanVoices = window.speechSynthesis.getVoices().filter((item) => item.lang.startsWith("de"));
+      const germanVoices = window.speechSynthesis
+        .getVoices()
+        .filter((item) => item.lang.startsWith("de"));
       if (germanVoices.length > 0) {
         setVoice(germanVoices.find((item) => item.localService) ?? germanVoices[0] ?? null);
       }

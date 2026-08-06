@@ -83,7 +83,6 @@ export const generateQuiz = createServerFn({ method: "POST" })
           "`tip` is one memorable trick to remember this point next time. " +
           "Use simple, encouraging English with no jargon, and vary the questions every time.",
         prompt: `Write ${data.count} CEFR ${data.level} German questions about "${data.topic}". Random seed: ${Math.random()}`,
-
       });
       return output.questions;
     } catch (error) {
