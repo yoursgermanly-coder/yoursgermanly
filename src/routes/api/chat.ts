@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 
-import { createLovableAiGatewayProvider, CHAT_MODEL } from "@/lib/ai-gateway.server";
+import { createLovableAiGatewayProvider, getAiApiKey, CHAT_MODEL } from "@/lib/ai-gateway.server";
 
 type ChatRequestBody = { messages?: unknown; threadId?: unknown };
 
@@ -41,7 +41,7 @@ export const Route = createFileRoute("/api/chat")({
           return new Response("Messages and threadId are required", { status: 400 });
         }
 
-        const key = process.env["OPENAI_API_KEY"];
+        const key = getAiApiKey();
         if (!key) return new Response("AI is not configured yet.", { status: 500 });
 
         const supabase = supabaseForToken(token);
