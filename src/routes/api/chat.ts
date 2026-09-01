@@ -41,7 +41,7 @@ export const Route = createFileRoute("/api/chat")({
           return new Response("Messages and threadId are required", { status: 400 });
         }
 
-        const key = process.env["LOVABLE_API_KEY"];
+        const key = process.env["OPENAI_API_KEY"];
         if (!key) return new Response("AI is not configured yet.", { status: 500 });
 
         const supabase = supabaseForToken(token);
