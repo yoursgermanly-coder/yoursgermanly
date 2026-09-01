@@ -182,7 +182,7 @@ function AuthPage() {
         </form>
 
         <p className="mt-5 text-center text-sm text-muted-foreground">
-          {mode === "signin" ? "New to Lernexa?" : "Already have an account?"}{" "}
+          {mode === "signin" ? "New to Yours Germanly?" : "Already have an account?"}{" "}
           <button
             type="button"
             className="font-semibold text-primary"
