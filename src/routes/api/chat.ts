@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 
-import { createLovableAiGatewayProvider, CHAT_MODEL } from "@/lib/ai-gateway.server";
+import { createLovableAiGatewayProvider, getAiApiKey, CHAT_MODEL } from "@/lib/ai-gateway.server";
 
 type ChatRequestBody = { messages?: unknown; threadId?: unknown };
 
