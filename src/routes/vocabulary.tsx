@@ -33,13 +33,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/vocabulary")({
   head: () => ({
     meta: [
-      { title: "German Vocabulary Builder & Flashcards | Lernexa" },
+      { title: "German Vocabulary Builder & Flashcards | Yours Germanly" },
       {
         name: "description",
         content:
           "Build your German vocabulary with AI word packs and review them with spaced-repetition flashcards, audio and mastery tracking.",
       },
-      { property: "og:title", content: "German Vocabulary Builder & Flashcards | Lernexa" },
+      { property: "og:title", content: "German Vocabulary Builder & Flashcards | Yours Germanly" },
       {
         property: "og:description",
         content:

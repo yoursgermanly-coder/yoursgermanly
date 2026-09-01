@@ -18,13 +18,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/quiz")({
   head: () => ({
     meta: [
-      { title: "Unlimited German Practice Quiz | Lernexa" },
+      { title: "Unlimited German Practice Quiz | Yours Germanly" },
       {
         name: "description",
         content:
           "Practise German with unlimited AI-generated multiple-choice questions from A1 to B2, with instant feedback.",
       },
-      { property: "og:title", content: "Unlimited German Practice Quiz | Lernexa" },
+      { property: "og:title", content: "Unlimited German Practice Quiz | Yours Germanly" },
       {
         property: "og:description",
         content: "Unlimited A1–B2 German quiz questions with instant, encouraging feedback.",

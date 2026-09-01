@@ -19,13 +19,13 @@ export const Route = createFileRoute("/auth")({
   }),
   head: () => ({
     meta: [
-      { title: "Sign in — Lernexa" },
+      { title: "Sign in — Yours Germanly" },
       {
         name: "description",
         content:
-          "Create your free Lernexa account to save your German learning streak, XP and achievements to the cloud.",
+          "Create your free Yours Germanly account to save your German learning streak, XP and achievements to the cloud.",
       },
-      { property: "og:title", content: "Sign in — Lernexa" },
+      { property: "og:title", content: "Sign in — Yours Germanly" },
       {
         property: "og:description",
         content: "Save your German learning progress and sync it across all your devices.",
@@ -78,7 +78,7 @@ function AuthPage() {
           toast.success("Almost there! Check your email to confirm your account.");
           return;
         }
-        toast.success("Welcome to Lernexa! Your progress is now saved.");
+        toast.success("Welcome to Yours Germanly! Your progress is now saved.");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;

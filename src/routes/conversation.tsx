@@ -26,13 +26,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/conversation")({
   head: () => ({
     meta: [
-      { title: "Real-Life German Conversation Practice | Lernexa" },
+      { title: "Real-Life German Conversation Practice | Yours Germanly" },
       {
         name: "description",
         content:
           "Practise real German conversations — order a coffee, ask for directions or ace a job interview — with instant corrections and reply suggestions.",
       },
-      { property: "og:title", content: "Real-Life German Conversation Practice | Lernexa" },
+      { property: "og:title", content: "Real-Life German Conversation Practice | Yours Germanly" },
       {
         property: "og:description",
         content:

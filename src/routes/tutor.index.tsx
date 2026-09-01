@@ -13,13 +13,13 @@ import { createThread, deleteThread, listThreads, type TutorThread } from "@/lib
 export const Route = createFileRoute("/tutor/")({
   head: () => ({
     meta: [
-      { title: "AI German Tutor — Chat with Chinnu | Lernexa" },
+      { title: "AI German Tutor — Chat with Chinnu | Yours Germanly" },
       {
         name: "description",
         content:
           "Chat with your personal AI German tutor. Ask questions, practise conversations and get gentle corrections in simple English, any time.",
       },
-      { property: "og:title", content: "AI German Tutor — Chat with Chinnu | Lernexa" },
+      { property: "og:title", content: "AI German Tutor — Chat with Chinnu | Yours Germanly" },
       {
         property: "og:description",
         content:

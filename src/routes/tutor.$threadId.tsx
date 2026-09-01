@@ -36,13 +36,13 @@ import type { UIMessage } from "ai";
 export const Route = createFileRoute("/tutor/$threadId")({
   head: () => ({
     meta: [
-      { title: "Chat with your AI German Tutor | Lernexa" },
+      { title: "Chat with your AI German Tutor | Yours Germanly" },
       {
         name: "description",
         content:
           "Practise German in a friendly chat with Chinnu, your AI tutor: instant corrections, pronunciation hints and conversation practice.",
       },
-      { property: "og:title", content: "Chat with your AI German Tutor | Lernexa" },
+      { property: "og:title", content: "Chat with your AI German Tutor | Yours Germanly" },
       {
         property: "og:description",
         content: "A personal AI German teacher that corrects, explains and chats with you.",

@@ -17,16 +17,16 @@ import { useTheme } from "@/hooks/use-theme";
 export const Route = createFileRoute("/account")({
   head: () => ({
     meta: [
-      { title: "Your account — Lernexa" },
+      { title: "Your account — Yours Germanly" },
       {
         name: "description",
         content:
-          "Manage your Lernexa account, update your display name and keep your German learning progress synced to the cloud.",
+          "Manage your Yours Germanly account, update your display name and keep your German learning progress synced to the cloud.",
       },
-      { property: "og:title", content: "Your account — Lernexa" },
+      { property: "og:title", content: "Your account — Yours Germanly" },
       {
         property: "og:description",
-        content: "Manage your Lernexa profile and cloud-synced German learning progress.",
+        content: "Manage your Yours Germanly profile and cloud-synced German learning progress.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

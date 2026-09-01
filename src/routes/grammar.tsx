@@ -26,13 +26,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/grammar")({
   head: () => ({
     meta: [
-      { title: "German Grammar Lessons for Beginners | Lernexa" },
+      { title: "German Grammar Lessons for Beginners | Yours Germanly" },
       {
         name: "description",
         content:
           "Learn German grammar step by step: articles, cases, word order and verb tenses explained in simple English with examples and quick practice.",
       },
-      { property: "og:title", content: "German Grammar Lessons for Beginners | Lernexa" },
+      { property: "og:title", content: "German Grammar Lessons for Beginners | Yours Germanly" },
       {
         property: "og:description",
         content:

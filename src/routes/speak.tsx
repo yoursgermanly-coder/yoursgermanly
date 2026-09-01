@@ -35,13 +35,13 @@ import { logActivity } from "@/lib/insights";
 export const Route = createFileRoute("/speak")({
   head: () => ({
     meta: [
-      { title: "German Speaking & Listening Practice | Lernexa" },
+      { title: "German Speaking & Listening Practice | Yours Germanly" },
       {
         name: "description",
         content:
           "Practise speaking German out loud with instant pronunciation scoring, and train your ear with native-voice listening exercises.",
       },
-      { property: "og:title", content: "German Speaking & Listening Practice | Lernexa" },
+      { property: "og:title", content: "German Speaking & Listening Practice | Yours Germanly" },
       {
         property: "og:description",
         content:
