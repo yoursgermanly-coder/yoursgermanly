@@ -27,7 +27,7 @@ export const getLeaderboard = createServerFn({ method: "POST" })
 
     const { data: rows, error } = await supabaseAdmin
       .from("learning_progress")
-      .select("user_id, total_xp, streak, profiles:profiles(display_name, avatar_url)")
+      .select("user_id, total_xp, streak")
       .gt("total_xp", 0)
       .order("total_xp", { ascending: false })
       .order("streak", { ascending: false })
@@ -38,17 +38,28 @@ export const getLeaderboard = createServerFn({ method: "POST" })
       throw new Error("Could not load the leaderboard right now.");
     }
 
-    type Row = {
-      user_id: string;
-      total_xp: number | null;
-      streak: number | null;
-      profiles: { display_name: string | null; avatar_url: string | null } | null;
-    };
+    const entries = rows ?? [];
+    if (entries.length === 0) return [];
 
-    return ((rows ?? []) as unknown as Row[]).map((row) => ({
+    const { data: profiles, error: profilesError } = await supabaseAdmin
+      .from("profiles")
+      .select("id, display_name, avatar_url")
+      .in(
+        "id",
+        entries.map((row) => row.user_id),
+      );
+
+    if (profilesError) {
+      console.error("[leaderboard]", profilesError.message);
+      throw new Error("Could not load the leaderboard right now.");
+    }
+
+    const byId = new Map((profiles ?? []).map((p) => [p.id, p]));
+
+    return entries.map((row) => ({
       user_id: row.user_id,
-      display_name: row.profiles?.display_name ?? "Learner",
-      avatar_url: row.profiles?.avatar_url ?? null,
+      display_name: byId.get(row.user_id)?.display_name ?? "Learner",
+      avatar_url: byId.get(row.user_id)?.avatar_url ?? null,
       total_xp: row.total_xp ?? 0,
       streak: row.streak ?? 0,
     }));
