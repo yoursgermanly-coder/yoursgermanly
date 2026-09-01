@@ -21,13 +21,13 @@ import { getLevel } from "@/lib/progress";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Lernexa — Learn German the Fun Way" },
+      { title: "Yours Germanly — Learn German the Fun Way" },
       {
         name: "description",
         content:
-          "Translate English to German instantly and practise with unlimited AI-powered German quizzes. Learn a little every day with Lernexa.",
+          "Translate English to German instantly and practise with unlimited AI-powered German quizzes. Learn a little every day with Yours Germanly.",
       },
-      { property: "og:title", content: "Lernexa — Learn German the Fun Way" },
+      { property: "og:title", content: "Yours Germanly — Learn German the Fun Way" },
       {
         property: "og:description",
         content:

@@ -81,14 +81,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lernexa — Learn German the Fun Way" },
+      { title: "Yours Germanly — Learn German the Fun Way" },
       {
         name: "description",
         content:
           "Translate English to German and practise with unlimited AI-powered quizzes. Learn German a little every day.",
       },
-      { name: "author", content: "Lernexa" },
-      { property: "og:title", content: "Lernexa — Learn German the Fun Way" },
+      { name: "author", content: "Yours Germanly" },
+      { property: "og:title", content: "Yours Germanly — Learn German the Fun Way" },
       {
         property: "og:description",
         content: "English to German translation plus unlimited German practice quizzes.",
@@ -98,7 +98,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:site", content: "@Lovable" },
       { name: "theme-color", content: "#5C3BFE" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
-      { name: "apple-mobile-web-app-title", content: "Lernexa" },
+      { name: "apple-mobile-web-app-title", content: "Yours Germanly" },
     ],
     links: [
       {

@@ -30,13 +30,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/insights")({
   head: () => ({
     meta: [
-      { title: "Your German Learning Insights | Lernexa" },
+      { title: "Your German Learning Insights | Yours Germanly" },
       {
         name: "description",
         content:
           "See which German skills you're strongest at, track your weekly XP and get a personalised study plan built around your own progress.",
       },
-      { property: "og:title", content: "Your German Learning Insights | Lernexa" },
+      { property: "og:title", content: "Your German Learning Insights | Yours Germanly" },
       {
         property: "og:description",
         content:

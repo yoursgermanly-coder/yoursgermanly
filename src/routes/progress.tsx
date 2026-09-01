@@ -23,13 +23,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/progress")({
   head: () => ({
     meta: [
-      { title: "Your German Progress & Achievements | Lernexa" },
+      { title: "Your German Progress & Achievements | Yours Germanly" },
       {
         name: "description",
         content:
-          "Track your daily XP goal, learning streak, level and unlocked achievements as you learn German with Lernexa.",
+          "Track your daily XP goal, learning streak, level and unlocked achievements as you learn German with Yours Germanly.",
       },
-      { property: "og:title", content: "Your German Progress & Achievements | Lernexa" },
+      { property: "og:title", content: "Your German Progress & Achievements | Yours Germanly" },
       {
         property: "og:description",
         content: "Streaks, XP levels and achievement badges that keep your German practice going.",
@@ -241,7 +241,7 @@ function LeaderboardSection() {
       <Card className="shadow-soft rounded-3xl border-none p-4">
         {!isSignedIn ? (
           <p className="text-sm text-muted-foreground">
-            Sign in to see how you compare with other Lernexa learners.
+            Sign in to see how you compare with other Yours Germanly learners.
           </p>
         ) : isLoading ? (
           <p className="text-sm text-muted-foreground">Loading the ranking…</p>

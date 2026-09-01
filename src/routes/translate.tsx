@@ -37,13 +37,13 @@ import {
 export const Route = createFileRoute("/translate")({
   head: () => ({
     meta: [
-      { title: "English to German Translator | Lernexa" },
+      { title: "English to German Translator | Yours Germanly" },
       {
         name: "description",
         content:
           "Translate English to natural German with pronunciation help, slow audio, formality hints and beginner-friendly notes.",
       },
-      { property: "og:title", content: "English to German Translator | Lernexa" },
+      { property: "og:title", content: "English to German Translator | Yours Germanly" },
       {
         property: "og:description",
         content: "Instant, natural English to German translation with pronunciation and tips.",
