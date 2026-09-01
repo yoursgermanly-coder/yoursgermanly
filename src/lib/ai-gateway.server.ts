@@ -1,15 +1,16 @@
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 
 /**
- * Shared provider for Lovable AI Gateway. Server-only.
+ * Shared provider for the OpenAI API. Server-only.
  */
 export function createLovableAiGatewayProvider(apiKey: string) {
   return createOpenAICompatible({
-    name: "lovable",
-    baseURL: "https://ai.gateway.lovable.dev/v1",
-    headers: { "Lovable-API-Key": apiKey },
+    name: "openai",
+    baseURL: "https://api.openai.com/v1",
+    headers: { Authorization: `Bearer ${apiKey}` },
     supportsStructuredOutputs: true,
   });
 }
 
-export const CHAT_MODEL = "google/gemini-3.6-flash";
+export const CHAT_MODEL = "gpt-4o-mini";
+export const TRANSCRIBE_MODEL = "gpt-4o-mini-transcribe";

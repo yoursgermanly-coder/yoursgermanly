@@ -29,7 +29,7 @@ import {
 export const translateToGerman = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => TranslateInput.parse(input))
   .handler(async ({ data }): Promise<Translation> => {
-    const key = process.env["LOVABLE_API_KEY"];
+    const key = process.env["OPENAI_API_KEY"];
     if (!key) throw new Error("AI is not configured yet.");
 
     const { createLovableAiGatewayProvider, CHAT_MODEL } = await import("./ai-gateway.server");
@@ -62,7 +62,7 @@ export const translateToGerman = createServerFn({ method: "POST" })
 export const generateQuiz = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => QuizInput.parse(input))
   .handler(async ({ data }): Promise<QuizQuestion[]> => {
-    const key = process.env["LOVABLE_API_KEY"];
+    const key = process.env["OPENAI_API_KEY"];
     if (!key) throw new Error("AI is not configured yet.");
 
     const { createLovableAiGatewayProvider, CHAT_MODEL } = await import("./ai-gateway.server");
@@ -93,7 +93,7 @@ export const generateQuiz = createServerFn({ method: "POST" })
 export const generateVocabulary = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => VocabularyInput.parse(input))
   .handler(async ({ data }): Promise<VocabularyItem[]> => {
-    const key = process.env["LOVABLE_API_KEY"];
+    const key = process.env["OPENAI_API_KEY"];
     if (!key) throw new Error("AI is not configured yet.");
 
     const { createLovableAiGatewayProvider, CHAT_MODEL } = await import("./ai-gateway.server");
@@ -127,7 +127,7 @@ export const generateVocabulary = createServerFn({ method: "POST" })
 export const generateGrammarLesson = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => GrammarLessonInput.parse(input))
   .handler(async ({ data }): Promise<GrammarLesson> => {
-    const key = process.env["LOVABLE_API_KEY"];
+    const key = process.env["OPENAI_API_KEY"];
     if (!key) throw new Error("AI is not configured yet.");
 
     const { createLovableAiGatewayProvider, CHAT_MODEL } = await import("./ai-gateway.server");
@@ -155,7 +155,7 @@ export const generateGrammarLesson = createServerFn({ method: "POST" })
 export const generateSpeakingSet = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => SpeakingSetInput.parse(input))
   .handler(async ({ data }): Promise<SpeakingPhrase[]> => {
-    const key = process.env["LOVABLE_API_KEY"];
+    const key = process.env["OPENAI_API_KEY"];
     if (!key) throw new Error("AI is not configured yet.");
 
     const { createLovableAiGatewayProvider, CHAT_MODEL } = await import("./ai-gateway.server");
@@ -183,7 +183,7 @@ export const generateSpeakingSet = createServerFn({ method: "POST" })
 export const generateConversationTurn = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => ConversationTurnInput.parse(input))
   .handler(async ({ data }): Promise<ConversationTurn> => {
-    const key = process.env["LOVABLE_API_KEY"];
+    const key = process.env["OPENAI_API_KEY"];
     if (!key) throw new Error("AI is not configured yet.");
 
     const { createLovableAiGatewayProvider, CHAT_MODEL } = await import("./ai-gateway.server");
@@ -222,7 +222,7 @@ export const generateConversationTurn = createServerFn({ method: "POST" })
 export const generateStudyPlan = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => StudyPlanInput.parse(input))
   .handler(async ({ data }): Promise<StudyPlan> => {
-    const key = process.env["LOVABLE_API_KEY"];
+    const key = process.env["OPENAI_API_KEY"];
     if (!key) throw new Error("AI is not configured yet.");
 
     const { createLovableAiGatewayProvider, CHAT_MODEL } = await import("./ai-gateway.server");
