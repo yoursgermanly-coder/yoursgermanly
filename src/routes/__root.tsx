@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import { Toaster } from "@/components/ui/sonner";
 import { CloudSync } from "@/components/cloud-sync";
+import { IntroSplash } from "@/components/intro-splash";
 import { supabase } from "@/integrations/supabase/client";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -154,6 +155,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <IntroSplash />
       <CloudSync />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
