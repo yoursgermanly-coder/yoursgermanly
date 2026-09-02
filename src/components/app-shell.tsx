@@ -11,6 +11,7 @@ import {
   UserRound,
 } from "lucide-react";
 
+import appLogo from "@/assets/app_logo.jpeg.asset.json";
 import { useProgress } from "@/hooks/use-progress";
 import { useTheme } from "@/hooks/use-theme";
 
