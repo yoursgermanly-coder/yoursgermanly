@@ -201,15 +201,18 @@
     animation: none;
   }
 }
-/* REMOVE LOVABLE BADGE FOR FREE */
+/* HIDE ALL LOVABLE BADGES - FINAL FIX */
 #lovable-badge,
+[id*="lovable"],
 [data-lovable-badge],
 a[href*="lovable.dev"],
-div[id*="lovable-badge"] {
+a[href*="lovable.app"],
+div:has(a[href*="lovable"]) {
   display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  width: 0 !important;
-  height: 0 !important;
+}
+
+/* This targets the black 'Edit with Lovable' button specifically */
+div[style*="position: fixed"][style*="right"][style*="bottom"],
+iframe[style*="position: fixed"] {
+  display: none !important;
 }
