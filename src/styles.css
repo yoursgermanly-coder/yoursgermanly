@@ -201,4 +201,15 @@
     animation: none;
   }
 }
-
+/* REMOVE LOVABLE BADGE FOR FREE */
+#lovable-badge,
+[data-lovable-badge],
+a[href*="lovable.dev"],
+div[id*="lovable-badge"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
