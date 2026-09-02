@@ -15,11 +15,15 @@ export function IntroSplash() {
   const [visible, setVisible] = useState(true);
   const [fading, setFading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const dismissedRef = useRef(false);
+  const startedRef = useRef(false);
 
   useEffect(() => {
-    if (!visible) return;
+    if (!visible || dismissedRef.current) return;
 
     const dismiss = () => {
+      if (dismissedRef.current) return;
+      dismissedRef.current = true;
       setFading(true);
       window.setTimeout(() => setVisible(false), FADE_DURATION_MS);
     };
@@ -27,7 +31,8 @@ export function IntroSplash() {
     const fallback = window.setTimeout(dismiss, FALLBACK_TIMEOUT_MS);
 
     const video = videoRef.current;
-    if (video) {
+    if (video && !startedRef.current) {
+      startedRef.current = true;
       video.addEventListener("ended", dismiss);
       video.addEventListener("error", dismiss);
       video.muted = false;
@@ -59,7 +64,6 @@ export function IntroSplash() {
       <video
         ref={videoRef}
         src={introVideo.url}
-        autoPlay
         playsInline
         preload="auto"
         className="h-full w-full object-cover"
