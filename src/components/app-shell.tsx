@@ -11,7 +11,6 @@ import {
   UserRound,
 } from "lucide-react";
 
-import appLogo from "@/assets/app_logo.jpeg.asset.json";
 import { useProgress } from "@/hooks/use-progress";
 import { useTheme } from "@/hooks/use-theme";
 
@@ -66,16 +65,9 @@ export function AppShell({
     <div className="min-h-screen bg-background pb-24">
       <header className="bg-brand-gradient px-5 pb-8 pt-10 text-primary-foreground">
         <div className="mx-auto flex max-w-md items-start justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <img
-              src={appLogo.url}
-              alt="Yours Germanly logo"
-              className="size-11 shrink-0 rounded-xl object-cover shadow-soft"
-            />
-            <div>
-              <h1 className="text-2xl">{title}</h1>
-              {subtitle ? <p className="mt-1 text-sm opacity-90">{subtitle}</p> : null}
-            </div>
+          <div>
+            <h1 className="text-2xl">{title}</h1>
+            {subtitle ? <p className="mt-1 text-sm opacity-90">{subtitle}</p> : null}
           </div>
           <div className="flex shrink-0 items-center gap-2">
             <Link
