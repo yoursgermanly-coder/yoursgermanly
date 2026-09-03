@@ -1,44 +1,21 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
-/** German text-to-speech with a native-voice preference and slow replay. */
 export function useGermanSpeech() {
-  const [voice, setVoice] = useState<SpeechSynthesisVoice | null>(null);
-  const [supported, setSupported] = useState(true);
+  const [supported] = useState(true);
+  const [voice] = useState<SpeechSynthesisVoice | null>(null);
 
-  useEffect(() => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
-      setSupported(false);
-      return;
+  const speak = useCallback((text: string) => {
+    try {
+      const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=de&client=tw-ob`;
+      const audio = new Audio(url);
+      audio.play().catch(() => {
+        toast.error("Audio play failed. Tap again.");
+      });
+    } catch (e) {
+      toast.error("Audio isn't supported on this device.");
     }
-    const pickVoice = () => {
-      const germanVoices = window.speechSynthesis
-        .getVoices()
-        .filter((item) => item.lang.startsWith("de"));
-      if (germanVoices.length > 0) {
-        setVoice(germanVoices.find((item) => item.localService) ?? germanVoices[0] ?? null);
-      }
-    };
-    pickVoice();
-    window.speechSynthesis.addEventListener("voiceschanged", pickVoice);
-    return () => window.speechSynthesis.removeEventListener("voiceschanged", pickVoice);
   }, []);
 
-  const speak = useCallback(
-    (text: string, rate = 1) => {
-      if (!supported) {
-        toast.error("Audio isn't supported on this device.");
-        return;
-      }
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "de-DE";
-      utterance.rate = rate;
-      if (voice) utterance.voice = voice;
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(utterance);
-    },
-    [supported, voice],
-  );
-
-  return { speak, supported, voiceName: voice?.name ?? null };
+  return { voice, supported, speak, isSpeaking: false };
 }
