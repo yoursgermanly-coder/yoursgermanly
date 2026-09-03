@@ -1,7 +1,15 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { CloudCheck, CloudOff, LineChart, LogOut, Moon, Sun } from "lucide-react";
+import {
+  CloudCheck,
+  CloudOff,
+  LineChart,
+  LogOut,
+  Moon,
+  Shield,
+  Sun,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
