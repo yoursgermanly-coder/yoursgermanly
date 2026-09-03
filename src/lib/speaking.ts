@@ -62,7 +62,17 @@ function encodeWav(chunks: Float32Array[], sampleRate: number): Blob {
 
 /** Starts recording the microphone; resolve the returned `stop()` for a complete WAV file. */
 export async function startRecording(): Promise<Recorder> {
-  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  if (typeof navigator === "undefined" || !navigator.mediaDevices?.getUserMedia) {
+    throw new Error("Recording isn't supported on this browser.");
+  }
+  let stream: MediaStream;
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({
+      audio: { echoCancellation: true, noiseSuppression: true, channelCount: 1 },
+    });
+  } catch {
+    throw new Error("We need microphone access. Please allow it in your browser settings.");
+  }
   const context = new AudioContext();
   const source = context.createMediaStreamSource(stream);
   const processor = context.createScriptProcessor(4096, 1, 1);
