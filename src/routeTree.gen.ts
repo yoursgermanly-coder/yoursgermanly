@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ConversationRouteImport } from './routes/conversation'
 import { Route as GrammarRouteImport } from './routes/grammar'
 import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as SpeakRouteImport } from './routes/speak'
@@ -53,6 +54,11 @@ const GrammarRoute = GrammarRouteImport.update({
 const InsightsRoute = InsightsRouteImport.update({
   id: '/insights',
   path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProgressRoute = ProgressRouteImport.update({
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/conversation': typeof ConversationRoute
   '/grammar': typeof GrammarRoute
   '/insights': typeof InsightsRoute
+  '/privacy': typeof PrivacyRoute
   '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
   '/speak': typeof SpeakRoute
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/conversation': typeof ConversationRoute
   '/grammar': typeof GrammarRoute
   '/insights': typeof InsightsRoute
+  '/privacy': typeof PrivacyRoute
   '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
   '/speak': typeof SpeakRoute
@@ -143,6 +151,7 @@ export interface FileRoutesById {
   '/conversation': typeof ConversationRoute
   '/grammar': typeof GrammarRoute
   '/insights': typeof InsightsRoute
+  '/privacy': typeof PrivacyRoute
   '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
   '/speak': typeof SpeakRoute
@@ -162,6 +171,7 @@ export interface FileRouteTypes {
     | '/conversation'
     | '/grammar'
     | '/insights'
+    | '/privacy'
     | '/progress'
     | '/quiz'
     | '/speak'
@@ -179,6 +189,7 @@ export interface FileRouteTypes {
     | '/conversation'
     | '/grammar'
     | '/insights'
+    | '/privacy'
     | '/progress'
     | '/quiz'
     | '/speak'
@@ -196,6 +207,7 @@ export interface FileRouteTypes {
     | '/conversation'
     | '/grammar'
     | '/insights'
+    | '/privacy'
     | '/progress'
     | '/quiz'
     | '/speak'
@@ -214,6 +226,7 @@ export interface RootRouteChildren {
   ConversationRoute: typeof ConversationRoute
   GrammarRoute: typeof GrammarRoute
   InsightsRoute: typeof InsightsRoute
+  PrivacyRoute: typeof PrivacyRoute
   ProgressRoute: typeof ProgressRoute
   QuizRoute: typeof QuizRoute
   SpeakRoute: typeof SpeakRoute
@@ -267,6 +280,13 @@ declare module '@tanstack/react-router' {
       path: '/insights'
       fullPath: '/insights'
       preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/progress': {
@@ -342,6 +362,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConversationRoute: ConversationRoute,
   GrammarRoute: GrammarRoute,
   InsightsRoute: InsightsRoute,
+  PrivacyRoute: PrivacyRoute,
   ProgressRoute: ProgressRoute,
   QuizRoute: QuizRoute,
   SpeakRoute: SpeakRoute,

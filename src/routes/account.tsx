@@ -1,7 +1,15 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { CloudCheck, CloudOff, LineChart, LogOut, Moon, Sun } from "lucide-react";
+import {
+  CloudCheck,
+  CloudOff,
+  LineChart,
+  LogOut,
+  Moon,
+  Shield,
+  Sun,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
@@ -182,6 +190,12 @@ function AccountPage() {
         <Button asChild variant="outline" className="mt-5 h-12 w-full rounded-2xl">
           <Link to="/insights">
             <LineChart className="size-4" aria-hidden="true" /> View learning insights
+          </Link>
+        </Button>
+
+        <Button asChild variant="outline" className="mt-3 h-12 w-full rounded-2xl">
+          <Link to="/privacy">
+            <Shield className="size-4" aria-hidden="true" /> Privacy policy
           </Link>
         </Button>
       </section>
