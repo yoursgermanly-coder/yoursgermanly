@@ -192,6 +192,12 @@ function AccountPage() {
             <LineChart className="size-4" aria-hidden="true" /> View learning insights
           </Link>
         </Button>
+
+        <Button asChild variant="outline" className="mt-3 h-12 w-full rounded-2xl">
+          <Link to="/privacy">
+            <Shield className="size-4" aria-hidden="true" /> Privacy policy
+          </Link>
+        </Button>
       </section>
 
       <Button variant="outline" className="mt-4 h-12 w-full rounded-2xl" onClick={handleSignOut}>
