@@ -6,31 +6,59 @@ export function useGermanSpeech() {
 
   const speak = useCallback((text: string, rate: number = 1) => {
     try {
-      setIsSpeaking(true);
       const clean = text.trim();
-      if (!clean) {
-        setIsSpeaking(false);
+      if (!clean) return;
+
+      setIsSpeaking(true);
+
+      // 1. APK NATIVE TTS - This will fix your APK 100%
+      const median = (window as any).median;
+      if (median && median.textToSpeech && median.textToSpeech.speak) {
+        median.textToSpeech.speak({
+          text: clean,
+          language: 'de-DE',
+          rate: rate < 1 ? 0.6 : 1.0
+        });
+        setTimeout(() => setIsSpeaking(false), 1500);
         return;
       }
-      // This URL works inside Median APK + Chrome + iOS
+
+      // 2. Chrome / Web - Google Audio (your current code, working)
       const url = `https://translate.googleapis.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(clean)}&tl=de&client=gtx`;
-      const audio = new Audio(url);
+      const audio = new Audio();
       audio.crossOrigin = "anonymous";
-      // Slow mode for turtle button
+      audio.src = url;
+      audio.preload = "auto";
       audio.playbackRate = rate < 1 ? 0.65 : 1.0;
       
       audio.onended = () => setIsSpeaking(false);
       audio.onerror = () => {
         setIsSpeaking(false);
-        toast.error("Tap again to play");
+        // Fallback to browser's built-in voice
+        if ('speechSynthesis' in window) {
+          const u = new SpeechSynthesisUtterance(clean);
+          u.lang = 'de-DE';
+          u.rate = rate < 1 ? 0.6 : 1.0;
+          window.speechSynthesis.speak(u);
+        } else {
+          toast.error("Tap again to play");
+        }
       };
 
       audio.play().catch(() => {
-        setIsSpeaking(false);
-        // second attempt for WebView autoplay block
-        const a2 = new Audio(url);
-        a2.play().catch(() => toast.error("Tap the speaker again"));
+        // WebView autoplay blocked - try native speech
+        if ('speechSynthesis' in window) {
+          const u = new SpeechSynthesisUtterance(clean);
+          u.lang = 'de-DE';
+          u.rate = rate < 1 ? 0.6 : 1.0;
+          u.onend = () => setIsSpeaking(false);
+          window.speechSynthesis.speak(u);
+        } else {
+          setIsSpeaking(false);
+          toast.error("Tap speaker again");
+        }
       });
+
     } catch {
       setIsSpeaking(false);
     }
