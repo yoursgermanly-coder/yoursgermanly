@@ -31,19 +31,35 @@ export function IntroSplash() {
     const fallback = window.setTimeout(dismiss, FALLBACK_TIMEOUT_MS);
 
     const video = videoRef.current;
+    // Browsers block autoplay with sound before any interaction: fall back to
+    // muted playback and bring the audio in on the very first touch/tap.
+    const unmute = () => {
+      if (!video) return;
+      video.muted = false;
+      video.volume = 1;
+      void video.play().catch(() => undefined);
+    };
+
     if (video && !startedRef.current) {
       startedRef.current = true;
       video.addEventListener("ended", dismiss);
       video.addEventListener("error", dismiss);
       video.muted = false;
+      video.volume = 1;
       video.play().catch(() => {
         video.muted = true;
-        video.play().catch(() => dismiss);
+        video.play().catch(() => dismiss());
+        window.addEventListener("pointerdown", unmute, { once: true });
+        window.addEventListener("touchstart", unmute, { once: true });
+        window.addEventListener("keydown", unmute, { once: true });
       });
     }
 
     return () => {
       window.clearTimeout(fallback);
+      window.removeEventListener("pointerdown", unmute);
+      window.removeEventListener("touchstart", unmute);
+      window.removeEventListener("keydown", unmute);
       if (video) {
         video.removeEventListener("ended", dismiss);
         video.removeEventListener("error", dismiss);
