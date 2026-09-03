@@ -105,6 +105,9 @@ export async function startRecording(): Promise<Recorder> {
 }
 
 export async function transcribeGerman(audio: Blob): Promise<string> {
+  if (audio.size < 4096) {
+    throw new Error("That recording was too short — hold the button and speak clearly.");
+  }
   const body = new FormData();
   body.append("audio", audio, "recording.wav");
 
