@@ -74,7 +74,7 @@ function AuthPage() {
 
   return (
     <AppShell
-      title={mode === "signin" ? "Welcome back" : "Create your account"}
+      title="Welcome"
       subtitle="Save your streak, XP and achievements to the cloud."
     >
       <section className="rounded-3xl border border-border bg-card p-5 shadow-sm">
@@ -85,75 +85,9 @@ function AuthPage() {
           onClick={handleGoogle}
           disabled={isBusy}
         >
+          {isBusy ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
           Continue with Google
         </Button>
-
-        <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
-          <span className="h-px flex-1 bg-border" />
-          or use your email
-          <span className="h-px flex-1 bg-border" />
-        </div>
-
-        <form onSubmit={handleEmailSubmit} className="space-y-4">
-          {mode === "signup" ? (
-            <div className="space-y-2">
-              <Label htmlFor="displayName">Display name</Label>
-              <Input
-                id="displayName"
-                value={displayName}
-                onChange={(event) => setDisplayName(event.target.value)}
-                placeholder="Anna"
-                autoComplete="nickname"
-                className="h-12 rounded-2xl"
-              />
-            </div>
-          ) : null}
-
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              required
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="you@example.com"
-              autoComplete="email"
-              className="h-12 rounded-2xl"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              required
-              minLength={6}
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="At least 6 characters"
-              autoComplete={mode === "signup" ? "new-password" : "current-password"}
-              className="h-12 rounded-2xl"
-            />
-          </div>
-
-          <Button type="submit" className="h-12 w-full rounded-2xl" disabled={isBusy}>
-            {isBusy ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
-            {mode === "signin" ? "Sign in" : "Create account"}
-          </Button>
-        </form>
-
-        <p className="mt-5 text-center text-sm text-muted-foreground">
-          {mode === "signin" ? "New to Yours Germanly?" : "Already have an account?"}{" "}
-          <button
-            type="button"
-            className="font-semibold text-primary"
-            onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-          >
-            {mode === "signin" ? "Create an account" : "Sign in"}
-          </button>
-        </p>
       </section>
 
       <p className="mt-4 px-2 text-center text-xs text-muted-foreground">
