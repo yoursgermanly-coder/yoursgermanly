@@ -46,10 +46,6 @@ function AuthPage() {
   const navigate = useNavigate();
   const search = useSearch({ from: "/auth" });
   const { isSignedIn, isLoading } = useAuth();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [displayName, setDisplayName] = useState("");
   const [isBusy, setIsBusy] = useState(false);
 
   const destination = safePath(search.redirect);
@@ -59,39 +55,6 @@ function AuthPage() {
       void navigate({ to: destination, replace: true });
     }
   }, [isLoading, isSignedIn, destination, navigate]);
-
-  async function handleEmailSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    setIsBusy(true);
-    try {
-      if (mode === "signup") {
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: window.location.origin,
-            data: { display_name: displayName || email.split("@")[0] },
-          },
-        });
-        if (error) throw error;
-        if (!data.session) {
-          toast.success("Almost there! Check your email to confirm your account.");
-          return;
-        }
-        toast.success("Welcome to Yours Germanly! Your progress is now saved.");
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        toast.success("Welcome back! Syncing your progress…");
-      }
-    } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Something went wrong. Please try again.",
-      );
-    } finally {
-      setIsBusy(false);
-    }
-  }
 
   async function handleGoogle() {
     setIsBusy(true);
