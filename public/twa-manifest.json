@@ -1,0 +1,19 @@
+{
+  "packageId": "com.yoursgermanly.app",
+  "host": "yoursgermanly.lovable.app",
+  "name": "Yours Germanly",
+  "launcherName": "Yours Germanly",
+  "display": "standalone",
+  "startUrl": "/",
+  "iconUrl": "https://yoursgermanly.lovable.app/icon-512.png",
+  "maskableIconUrl": "https://yoursgermanly.lovable.app/icon-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "themeColor": "#5C3BFE",
+  "navigationColor": "#5C3BFE",
+  "backgroundColor": "#F4F3FF",
+  "enableNotifications": true,
+  "appVersion": {
+    "name": "1.0.0",
+    "code": 1
+  }
+}
