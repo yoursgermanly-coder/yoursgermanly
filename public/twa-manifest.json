@@ -4,16 +4,17 @@
   "name": "Yours Germanly",
   "launcherName": "Yours Germanly",
   "display": "standalone",
+  "themeColor": "#000000",
+  "navigationColor": "#000000",
+  "backgroundColor": "#ffffff",
   "startUrl": "/",
-  "iconUrl": "https://yoursgermanly.lovable.app/icon-512.png",
-  "maskableIconUrl": "https://yoursgermanly.lovable.app/icon-512.png",
+  "iconUrl": "/app_logo.jpeg",
+  "maskableIconUrl": "/app_logo.jpeg",
   "splashScreenFadeOutDuration": 300,
-  "themeColor": "#5C3BFE",
-  "navigationColor": "#5C3BFE",
-  "backgroundColor": "#F4F3FF",
-  "enableNotifications": true,
-  "appVersion": {
-    "name": "1.0.0",
-    "code": 1
+  "signingKey": {
+    "fullName": "Yours Germanly",
+    "organization": "Yours Germanly",
+    "organizationalUnit": "Engineering",
+    "countryCode": "91"
   }
 }
